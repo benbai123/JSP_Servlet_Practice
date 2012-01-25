@@ -10,3 +10,7 @@ Reference
 ## BasicServletPractice
 
 Practice of basic servlet action (Ajax, Get, Post, error page)
+
+Reference:
+
+[Basic Servlet Practice](http://ben-bai.blogspot.com/2012/01/basic-servlet-practice.html)
