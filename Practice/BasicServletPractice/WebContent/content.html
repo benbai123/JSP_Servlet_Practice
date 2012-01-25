@@ -1,11 +1,67 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<!-- practice: parse json, run javascript by string -->
 	<head>
 		<meta content="text/html; charset=Big5" http-equiv="content-type">
 		<title>Content page</title>
+		<script type="text/javascript">
+			window.content = {}
+			var data = [];
+			onload = function () {
+				var request;
+				if (request = content.getXmlHttpRequest()) {
+					request.open('GET', 'content.gen?time='+new Date().getTime());
+					request.send(null);
+					request.onreadystatechange = function() {
+						if(request.readyState === 4) {
+							if(request.status === 200) {
+								var json = request.responseText,
+									obj = eval('(' + json + ')'),
+									func = obj[0];
+								for (var i = 1; i < obj.length; i++)
+									data.push(obj[i]);
+								eval(func);
+							} else if(request.status === 400)
+								document.location.href = 'index.html';
+						}
+					};
+				}
+			}
+			content.createTable = function (col, row) {
+				var html = "<table>";
+				for (var i = 0; i < col; i++) {
+					html += "<tr>";
+					for (var j = 0; j < row; j++) {
+						html += "<td>"+data[i][j]+"</td>";
+					}
+					html += "</tr>";
+				}
+				html += "</table>";
+				document.getElementById('content').innerHTML = html;
+			}
+			content.clear = function () {
+				document.getElementById('content').innerHTML = '';
+			}
+			content.getXmlHttpRequest = function () {
+				if (window.XMLHttpRequest
+					&& (window.location.protocol !== 'file:' 
+					|| !window.ActiveXObject))
+					return new XMLHttpRequest();
+				try {
+					return new ActiveXObject('Microsoft.XMLHTTP');
+				} catch(e) {
+					throw new Error('XMLHttpRequest not supported');
+				}
+			}
+		</script>
 	</head>
 	<body>
-		This is content page
+		<form action="logout.bye" method="get">
+			This is content page
+			<div id="content">
+			</div>
+			<input type="submit" value="logout" onclick="content.clear();" />
+		</form>
 	</body>
 </html>

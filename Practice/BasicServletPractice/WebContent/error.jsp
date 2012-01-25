@@ -6,12 +6,7 @@
 		<title>Error page</title>
 	</head>
 	<body>
-		<% if (session.getAttribute("ERR_MSG") == null)
-				out.print(exception.getMessage());
-			else {
-				out.print(session.getAttribute("ERR_MSG"));
-				session.setAttribute("ERR_MSG", null);
-			}
+		<% out.print(exception.getMessage());
 		%>
 	</body>
 </html>

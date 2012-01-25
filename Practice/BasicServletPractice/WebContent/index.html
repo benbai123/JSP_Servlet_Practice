@@ -1,13 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<!-- practice: ajax (XMLHttpRequest), form submit -->
 	<head>
 		<meta content="text/html; charset=Big5" http-equiv="content-type">
 		<title>Login page</title>
 		<script type="text/javascript">
-			function getHint() {
+			window.index = {};
+			index.getHint = function () {
 				var request;
-				if (request = getXmlHttpRequest()) {
+				if (request = index.getXmlHttpRequest()) {
 					request.open('GET', 'auth.hint?time='+new Date().getTime());
 					request.send(null);
 					request.onreadystatechange = function() {
@@ -20,7 +22,7 @@
 					};
 				}
 			}
-			function getXmlHttpRequest () {
+			index.getXmlHttpRequest = function () {
 				if (window.XMLHttpRequest
 					&& (window.location.protocol !== 'file:' 
 					|| !window.ActiveXObject))
@@ -35,7 +37,7 @@
 	</head>
 	<body>
 		<div id="hint">hint: </div>
-		<input type="button" onclick="getHint();" value="Click to get id and pw"></input>
+		<input type="button" onclick="index.getHint();" value="Click to get id and pw"></input>
 		<form action="login.go" method="post">
 			<input id="userId" type="text" value="Your ID" name="uid" />
 			<input id="userPw" type="password" value="Your PW" name="upw" />

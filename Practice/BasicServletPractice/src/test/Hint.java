@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name="HintServlet", urlPatterns={"/auth.hint"},
 		loadOnStartup=1)
+// practice: get/set session attribute, output,
+//servlet config by annotation 
 public class Hint extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,9 +28,10 @@ public class Hint extends HttpServlet {
 		else
 			tooMuch = true;
 
+		// show alert message if ask too much
 		if (tooMuch)
 			out.println("You ask too much times !");
-		else
+		else // else show hint
 			out.println("id: test, pw: abc, ask times: " + askTimes + ", last ask at " + req.getParameter("time"));
 		out.close();
 	}
