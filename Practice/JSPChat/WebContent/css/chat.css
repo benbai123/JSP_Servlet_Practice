@@ -1,0 +1,10 @@
+.content {
+	width: 600px;
+	height: 400px;
+	overflow: auto;	
+	border: 1px solid #991111;
+}
+.msg-input {
+	width: 600px;
+	border: 1px solid #119911;
+}
