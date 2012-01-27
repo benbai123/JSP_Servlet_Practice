@@ -12,13 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="LoginServlet", urlPatterns={"/login.go"},
 		loadOnStartup=1)
 public class Login extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8873939883201271898L;
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 		String uid = new String(req.getParameter("uid").getBytes("ISO-8859-1"), "UTF-8");
 		String newUid = uid;
 		int i = 2;
-		Map chat = Chat.getChatMap();
+		Map<String, List<String>> chat = Chat.getChatMap();
 		synchronized (chat) {
 			// prevent uid conflict
 			if ("you".equalsIgnoreCase(newUid))
@@ -26,7 +31,7 @@ public class Login extends HttpServlet {
 			while (chat.containsKey(newUid))
 				newUid = uid + i++;
 			uid = newUid;
-			chat.put(uid, new ArrayList());
+			chat.put(uid, new ArrayList<String>());
 		}
 		req.getSession().setAttribute("UID", uid);
 		resp.sendRedirect("chat.jsp");

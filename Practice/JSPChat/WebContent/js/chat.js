@@ -4,10 +4,17 @@ window.chat = {};
 // post to send message to chat.do
 chat.sendMsg = function (msg) {
 	var request;
+
+	msg = msg.replace(/&/g, '&amp;') // encode to prevent XSS
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;')
+				.replace(/\n/g, '<br />'); // replace textarea newline to line break tag
+	alert(msg);
 	if (request = this.getXmlHttpRequest()) {
 		request.open('POST', 'chat.do?action=send&msg='+msg+'&time='+new Date().getTime());
 		request.send(null);
-		document.getElementById('content').innerHTML += '<div>You said: '+msg+'</div>';
+		chat.updateContent('<div>You said: '+msg+'</div>');
 	}
 };
 
@@ -31,19 +38,28 @@ chat.startListen = function () {
 								for (var i = 0; i < obj.length; i++) {
 									msg += '<div>'+obj[i]+'</div>';
 								}
-								document.getElementById('content').innerHTML += msg;
+								chat.updateContent(msg);
 							}
-						} else if(request.status === 400)
-							document.location.href = 'index.html';
+						} else if(request.status === 400 || request.status === 500)
+							document.location.href = 'index.jsp';
 					}
 				};
 			}
 		}, 3000);
 };
+
+chat.updateContent = function (msg) {
+	var content = document.getElementById('content'),
+		atBottom = (content.scrollTop + content.offsetHeight) >= content.scrollHeight;
+	content.innerHTML += msg;
+	// only scroll to bottom if it is at bottom before msg added
+	if (atBottom)
+		content.scrollTop = content.scrollHeight;
+};
 chat.dokeyup = function (event) {
 	if (!event) // IE will not pass event
 		event = window.event;
-	if (event.keyCode == 13) { // ENTER pressed
+	if (event.keyCode == 13 && !event.shiftKey) { // ENTER pressed
 		var target = (event.currentTarget) ? event.currentTarget : event.srcElement,
 			value = target.value;
 		// make sure not only space char

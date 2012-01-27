@@ -15,6 +15,10 @@ import net.sf.json.JSONArray;
 @WebServlet(name="ChatServlet", urlPatterns={"/chat.do"},
 		loadOnStartup=1)
 public class Chat extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 113880057049845876L;
 	// message map, mapping user UID with a message list
 	private static Map<String, List<String>> _chat = new HashMap<String, List<String>>();
 	@Override
@@ -37,7 +41,9 @@ public class Chat extends HttpServlet {
 			}
 		} else if ("get".equals(action)) { // get message
 			String uid = (String)req.getSession().getAttribute("UID");
-			List l = _chat.get(uid);
+			if (uid == null)
+				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			List<String> l = _chat.get(uid);
 			synchronized (l) {
 				if (l.size() > 0) {
 					// for UTF-8 chars
@@ -54,7 +60,7 @@ public class Chat extends HttpServlet {
 			}
 		}
 	}
-	public static Map getChatMap () {
+	public static Map<String, List<String>> getChatMap () {
 		return _chat;
 	}
 }
