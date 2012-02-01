@@ -25,3 +25,5 @@ A project for JSTL practice.
 References:
 
 [JSTL Practice: Basic and Flow Control Tags](http://ben-bai.blogspot.com/2012/01/jstl-practice-basic-and-flow-control.html)
+
+[JSTL Practice: Number and Date Formatting Tags](http://ben-bai.blogspot.com/2012/02/jstl-practice-number-and-date.html)
