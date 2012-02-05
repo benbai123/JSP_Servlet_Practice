@@ -27,3 +27,5 @@ References:
 [JSTL Practice: Basic and Flow Control Tags](http://ben-bai.blogspot.com/2012/01/jstl-practice-basic-and-flow-control.html)
 
 [JSTL Practice: Number and Date Formatting Tags](http://ben-bai.blogspot.com/2012/02/jstl-practice-number-and-date.html)
+
+[JSTL Practice: I18N (Internationalization) practice, Locale, Bundle and Message.](http://ben-bai.blogspot.com/2012/02/jstl-practice-i18n-internationalization.html)
