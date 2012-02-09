@@ -1,0 +1,29 @@
+<project name="genMessageBundles" default="encodeMessage" basedir=".">
+
+	<!-- path property
+		name denotes the property name
+		location denotes the path
+		the ${basedir} is the root of the project -->
+	<property name="message.resource.path" location="${basedir}/src/test/jstl/i18n/resources"/>
+	<property name="message.properties.path" location="${basedir}/src/test/jstl/i18n/properties"/>
+
+	<!-- clear old files
+		this will delete all *.properties
+		under /src/test/jstl/i18n/properties -->
+	<target name="clean">
+		<delete dir="${message.properties.path}" includes="**/*.properties" />
+	</target>
+
+	<!-- encoding msgs
+		this will encode all *.resource
+		under /src/test/jstl/i18n/resources 
+		rename the encoded files to *.properties
+		and put them to /src/test/jstl/i18n/properties
+		encoding is UTF-8 -->
+	<target name="encodeMessage" depends="clean">
+		<echo message="begin"/>
+			<native2ascii src="${message.resource.path}" encoding="UTF-8"
+				includes="**/*.resource" dest="${message.properties.path}" ext=".properties" />
+		<echo message="end"/>
+	</target>
+</project>
