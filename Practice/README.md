@@ -31,3 +31,5 @@ References:
 [JSTL Practice: I18N (Internationalization) practice, Locale, Bundle and Message.](http://ben-bai.blogspot.com/2012/02/jstl-practice-i18n-internationalization.html)
 
 [Ant Introduction and First Try](http://ben-bai.blogspot.com/2012/02/ant-introduction-and-first-try.html)
+
+[Ant Practice: Encoding Message Bundles by Ant](http://ben-bai.blogspot.com/2012/02/ant-practice-encoding-message-bundles.html)
