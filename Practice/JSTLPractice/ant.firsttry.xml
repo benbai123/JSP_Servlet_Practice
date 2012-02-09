@@ -1,0 +1,10 @@
+<!-- The project entry, execute target firstTry at first -->
+<project name="antTest" default="firstTry">
+	<target name="preSet">
+		<echo message="Preset of First Try"/>
+	</target>
+	<!-- Echo message, will run the target preSet before it self -->
+	<target name="firstTry" depends="preSet">
+		<echo message="Ant First Try"/>
+	</target>
+</project>
