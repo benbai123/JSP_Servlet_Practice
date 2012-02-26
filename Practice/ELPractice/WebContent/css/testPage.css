@@ -1,0 +1,29 @@
+.content {
+	width: 100%;
+	height: 100%;
+	padding: 50px;
+	background-color: #EEEEEE;
+}
+.practice_block {
+	float: left;
+	margin-right: 25px;
+}
+.parctice_name {
+	color: #21648C;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+.practice_body {
+	color: #4386AE;
+	margin-left: 20px;
+	margin-right: 15px;
+	margin-bottom: 5px;
+	line-height: 24px;
+}
+.practice_element_left {
+	float: left;
+}
+.practice_element_right {
+	text-align: right;
+}
