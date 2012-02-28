@@ -1,5 +1,4 @@
-# Practice
-### BasicServletPractice
+# BasicServletPractice
 
 Practice of basic servlet action (Ajax, Get, Post, error page)
 
@@ -7,7 +6,16 @@ Reference:
 
 [Basic Servlet Practice](http://ben-bai.blogspot.com/2012/01/basic-servlet-practice.html)
 
-### JSPChat
+# JAVA
+### Net
+
+A java.net practice
+
+Reference
+
+[Java Practice: java.net practice, Use Google Geocode Web Service](http://ben-bai.blogspot.com/2012/02/java-practice-javanet-practice-use.html)
+
+# JSPChat
 
 A simple web based chat room, really simple, contains only:
 2 jsp pages,
@@ -19,7 +27,7 @@ Reference:
 
 [JSP Practice: Simple chat](http://ben-bai.blogspot.com/2012/01/jsp-practice-simple-chat.html)
 
-### JSTLPractice
+# JSTLPractice
 A project for JSTL practice.
 
 References:
@@ -33,3 +41,19 @@ References:
 [Ant Introduction and First Try](http://ben-bai.blogspot.com/2012/02/ant-introduction-and-first-try.html)
 
 [Ant Practice: Encoding Message Bundles by Ant](http://ben-bai.blogspot.com/2012/02/ant-practice-encoding-message-bundles.html)
+
+# WebServicePractice
+### RPC
+### RPCClient
+A RPC client practice
+
+Reference
+
+[RPC Practice: Practice of Redstone RPC Server and RPC Client](http://ben-bai.blogspot.com/2012/02/rpc-practice-practice-of-redstone-rpc.html)
+
+### RPCServer
+A RPC server practice
+
+Reference
+
+[RPC Practice: Practice of Redstone RPC Server and RPC Client](http://ben-bai.blogspot.com/2012/02/rpc-practice-practice-of-redstone-rpc.html)
