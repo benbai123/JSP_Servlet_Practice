@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<servlet>
+	    <servlet-name>xml-rpc</servlet-name>
+	    <servlet-class>test.TestService</servlet-class>
+	    <init-param>
+	        <param-name>streamMessages</param-name>
+	        <param-value>1</param-value>
+	    </init-param>
+	    <init-param> <!-- Optional! Defaults to text/xml and ISO-8859-1 -->
+	        <param-name>contentType</param-name>
+	        <param-value>text/xml; charset=UTF-8</param-value>
+	    </init-param>
+	    <load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>xml-rpc</servlet-name>
+	    <url-pattern>/xml-rpc/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>ajax</servlet-name>
+	    <servlet-class>test.TestService</servlet-class>
+	    <init-param>
+	        <param-name>streamMessages</param-name>
+	        <param-value>1</param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>contentType</param-name>
+	        <param-value>text/javascript+json; charset=UTF-8</param-value>
+	    </init-param>
+	    <load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>ajax</servlet-name>
+	    <url-pattern>/ajax/*</url-pattern>
+	</servlet-mapping>
+</web-app>
