@@ -1,10 +1,12 @@
 # BasicServletPractice
 
-Practice of basic servlet action (Ajax, Get, Post, error page)
+Practice of basic servlet action (Ajax, Get, Post, error page, dynamic add servlet)
 
 Reference:
 
 [Basic Servlet Practice](http://ben-bai.blogspot.com/2012/01/basic-servlet-practice.html)
+
+[Basic Servlet Practice: Dynamic add servlet programmatically.](http://ben-bai.blogspot.com/2012/03/basic-servlet-practice-dynamic-add.html)
 
 # JAVA
 ### Net
