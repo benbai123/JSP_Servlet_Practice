@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This servlet will be added by AddServletServlet#init
+ * This servlet will be added by DynamicAddListener#contextInitialized
  *
  */
 public class DynamicAddedServlet extends HttpServlet {
