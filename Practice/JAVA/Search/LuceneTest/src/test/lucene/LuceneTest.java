@@ -2,17 +2,10 @@ package test.lucene;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopScoreDocCollector;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.index.*;
+import org.apache.lucene.queryParser.*;
+import org.apache.lucene.search.*;
+import org.apache.lucene.store.*;
 import org.apache.lucene.util.Version;
 
 import java.io.IOException;
@@ -26,18 +19,23 @@ public class LuceneTest {
 		throws IOException, ParseException {
 		// create the index
 		Directory index = new RAMDirectory();
+		// create the index writer config
 		IndexWriterConfig config =
 			new IndexWriterConfig(Version.LUCENE_35, analyzer);
+		// create index writer by index and config
 		IndexWriter iw = new IndexWriter(index, config);
 
+		// add documents into index writer
 		addDocuments(iw);
 		iw.close();
 
-		doSearch(index, "content", "Test Content");
+		// Search the 'Test Content One' in documents content
+		doSearch(index, "content", "Test Content Three");
 
 	}
 	private static void addDocuments(IndexWriter iw)
 		throws IOException, ParseException {
+
 		iw.addDocument(new DocumentWrapper()
 				.createDoc("title", "Test Title One", true, true)
 				.addField("content", "Test Content One", true, true)
@@ -79,7 +77,7 @@ public class LuceneTest {
 	    
 		// display results
 		System.out.println(hits.length + " results.");
-		for(int i=0; i<hits.length; i++) {
+		for(int i=0; i < hits.length; i++) {
 			int docId = hits[i].doc;
 			Document doc = searcher.doc(docId);
 			System.out.println((i + 1) + "\ttitle: " + doc.get("title")
