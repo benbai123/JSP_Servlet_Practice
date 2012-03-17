@@ -17,14 +17,19 @@ Reference:
 
 [Basic Servlet Practice: Dynamic add servlet programmatically.](http://ben-bai.blogspot.com/2012/03/basic-servlet-practice-dynamic-add.html)
 
-### JAVA
-### Net
+### JAVA/Net
 
 A java.net practice
 
 Reference
 
 [Java Practice: java.net practice, Use Google Geocode Web Service](http://ben-bai.blogspot.com/2012/02/java-practice-javanet-practice-use.html)
+
+### JAVA/Search/LuceneTest
+
+Reference
+
+[Basic Command Line Lucene Test](http://ben-bai.blogspot.com/2012/03/basic-command-line-lucene-test.html)
 
 ### JSPChat
 
@@ -53,21 +58,18 @@ References:
 
 [Ant Practice: Encoding Message Bundles by Ant](http://ben-bai.blogspot.com/2012/02/ant-practice-encoding-message-bundles.html)
 
-### Tools
-### JAWR
+### Tools/JAWR
 
 [JSP/Servlet: Use Jawr to reduce page load times.](http://ben-bai.blogspot.com/2012/03/jspservlet-use-jawr-to-reduce-page-load.html)
 
-### WebServicePractice
-### RPC
-### RPCClient
+### WebServicePractice/RPC/RPCClient
 A RPC client practice
 
 Reference
 
 [RPC Practice: Practice of Redstone RPC Server and RPC Client](http://ben-bai.blogspot.com/2012/02/rpc-practice-practice-of-redstone-rpc.html)
 
-### RPCServer
+### WebServicePractice/RPC/RPCServer
 A RPC server practice
 
 Reference
