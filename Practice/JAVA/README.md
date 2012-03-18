@@ -13,3 +13,5 @@ Reference
 Reference
 
 [Basic Command Line Lucene Test](http://ben-bai.blogspot.com/2012/03/basic-command-line-lucene-test.html)
+
+[Wrap Lucene classes to do search easily.](http://ben-bai.blogspot.com/2012/03/wrap-lucene-classes-to-do-search-easily.html)
