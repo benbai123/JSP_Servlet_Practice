@@ -55,4 +55,10 @@ public class WrappedSearcher {
 	    
 		return results;
 	}
+	public ScoreDoc[] doSearch (WrappedQuery wq, int resultsPerPage,
+			String sortField, boolean reverse)
+			throws IOException, ParseException{
+		Sort sort = new Sort(new SortField(sortField, SortField.STRING, reverse));
+		return _searcher.search(wq.getQuery(), resultsPerPage, sort).scoreDocs;
+	}
 }
