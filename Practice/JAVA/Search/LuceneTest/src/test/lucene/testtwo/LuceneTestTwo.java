@@ -30,7 +30,7 @@ public class LuceneTestTwo {
 							.getDocument())
 			.close();
 
-		// creat query, initiate searcher and do search
+		// create WrappedSearcher, initiate searcher and do search
 		WrappedSearcher ws = new WrappedSearcher();
 		ScoreDoc[] results =
 			ws.initSearcher(wiw)
@@ -38,7 +38,7 @@ public class LuceneTestTwo {
 								.createQuery(wiw, "content", "Test Content Three"),
 							10);
 
-		// display results, have to remove it
+		// display results
 		System.out.println(results.length + " results.");
 		for(int i=0; i < results.length; i++) {
 			int docId = results[i].doc;

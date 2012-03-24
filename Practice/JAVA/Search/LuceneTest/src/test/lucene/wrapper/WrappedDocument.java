@@ -18,6 +18,10 @@ public class WrappedDocument {
 	public WrappedDocument () {
 		
 	}
+	public WrappedDocument (String name, String value)
+			throws IllegalStateException, IOException {
+		createDoc(name, value, true, true);
+	}
 	public WrappedDocument (String name, String value,
 			boolean store, boolean analyzed)
 			throws IllegalStateException, IOException {
@@ -57,6 +61,16 @@ public class WrappedDocument {
 				store? Field.Store.YES : Field.Store.NO,
 				analyzed? Field.Index.ANALYZED : Field.Index.NOT_ANALYZED));
 		return this;
+	}
+	/**
+	 * Add field with initial stored and analyzed
+	 * @param name Field name
+	 * @param value Field value
+	 * @return DocumentWrapper Self instance
+	 * @throws IOException
+	 */
+	public WrappedDocument addField(String name, String value) throws IOException {
+		return addField(name, value, true, true);
 	}
 	/**
 	 * Get the document
