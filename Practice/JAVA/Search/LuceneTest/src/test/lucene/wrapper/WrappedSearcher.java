@@ -55,10 +55,17 @@ public class WrappedSearcher {
 	    
 		return results;
 	}
-	public ScoreDoc[] doSearch (WrappedQuery wq, int resultsPerPage,
-			String sortField, boolean reverse)
+	/**
+	 * Do search with the given Sort and return the results
+	 * @param wq WrappedQuery
+	 * @param resultsPerPage
+	 * @param ws WrappedSort
+	 * @return ScoreDoc[] The results
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public ScoreDoc[] doSearch (WrappedQuery wq, int resultsPerPage, WrappedSort ws)
 			throws IOException, ParseException{
-		Sort sort = new Sort(new SortField(sortField, SortField.STRING, reverse));
-		return _searcher.search(wq.getQuery(), resultsPerPage, sort).scoreDocs;
+		return _searcher.search(wq.getQuery(), resultsPerPage, ws.getNativeSort()).scoreDocs;
 	}
 }
