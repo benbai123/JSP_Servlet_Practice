@@ -3,6 +3,7 @@ package test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,12 +18,14 @@ public class SimpleCrawler implements Runnable {
 	private List<String> urlToCrawl = new ArrayList<String>();
 	// the url list to skip
 	private List<String> badUrls = new ArrayList<String>();
+	// the 'words' that should be skipped (even do not test it)
+	private List<String> _escapeWords = new ArrayList<String>();
 	// The current url object, used to build relative path
 	private URL url;
 	// the maximum amount of result 0 or smaller denotes no limitation
 	private int resultLimit = 0;
 	// whether the crawler is stopped
-	private boolean stopped = false;
+	private boolean _stopped = false;
 
 	// the delay between crawl
 	private long delayBetweenCrawl = 5000;
@@ -43,32 +46,28 @@ public class SimpleCrawler implements Runnable {
 	public void run () {
 		try {
 			while (true) {
-				if (urlToCrawl.size() == 0) {
+				// no more link or set stopped, stop
+				if (urlToCrawl.size() == 0 || isStopped()) {
 					break;
 				}
 				String strUrl = urlToCrawl.remove(0);
 				url = new java.net.URL(strUrl);
 				// get the content of first url
-				String content = getResponse(strUrl, url).toString();
+				String content = getResponse(url).toString();
 				// put the url/content to result map
 				if (content != null) {
 					result.put(strUrl, content);
-					// stop
+					// limit size, stop
 					if (resultLimit > 0 && result.size() >= resultLimit)
 						break;
-					// get all url that have not be crawled 
-					urlToCrawl.addAll(getSubUrls(content, url));
+					// add all url that have not be crawled in content 
+					addSubUrls(content, url);
 				}
 
 				// take a rest, do not crawl too fast
-				try {
-					Thread.sleep(delayBetweenCrawl);
-				} catch (Exception e) {
-					e.printStackTrace();
-					continue;
-				}
+				sleep(delayBetweenCrawl);
 			}
-			stopped = true;
+			setStopped(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,124 +76,186 @@ public class SimpleCrawler implements Runnable {
 	 * get all html links in the given content
 	 * @param content The content that crawled by current url
 	 * @param url the current url
-	 * @return List, all html links in the given content
 	 */
-	private List<String> getSubUrls (String content, URL url) {
-		List<String> subUrls = new ArrayList<String>();
+	/*package*/ void addSubUrls (String content, URL url) {
+		boolean success;
 		String lowerCaseContent = content.toLowerCase();
 		int index = 0;
 		// has anchor tag
 		while ((index = lowerCaseContent.indexOf("<a", index)) != -1) {
 			// take a rest, do not check too fast
-			try {
-				Thread.sleep(delayBetweenCheck);
-			} catch (Exception e) {
-				e.printStackTrace();
-				continue;
-			}
+			sleep(delayBetweenCheck);
 
 			// has href="..."
-			if ((index = lowerCaseContent.indexOf("href", index)) == -1) 
-				break;
-			if ((index = lowerCaseContent.indexOf("=", index)) == -1) 
+			if ((index = lowerCaseContent.indexOf("href", index)) == -1
+				|| (index = lowerCaseContent.indexOf("=", index)) == -1) 
 				break;
 
 			// get next part of url
 			index++;
-			String remaining = content.substring(index);
-			StringTokenizer st = new StringTokenizer(remaining, "\t\n\r\"<>#");
-			String strLink = st.nextToken();
-			// shift to the first http if exists
-			if (!strLink.startsWith("http") && strLink.contains("http")) {
-				strLink = strLink.substring(strLink.indexOf("http"));
-			}
-			// cut the tail after htm or html
-			if ((!strLink.endsWith("html") && strLink.contains("html"))
-				|| (!strLink.endsWith("htm") && strLink.contains("htm"))) {
-				boolean hasHtml = false;
-				if (strLink.contains("html")) {
-					strLink = strLink.substring(0, strLink.lastIndexOf("html") + 4);
-					hasHtml = true;
-				} else
-					strLink = strLink.substring(0, strLink.lastIndexOf("htm") + 3);
-				System.out.println(hasHtml + " modified tail " + strLink);
+			String strLink = getNextLink(content, index);
+			if (strLink == null) {
+				if (!badUrls.contains(strLink))
+					badUrls.add(strLink);
+				continue;
 			}
 			// check to see if this URL has already been 
 			// searched or is going to be searched
-			if (!result.containsKey(strLink) 
-				&& !urlToCrawl.contains(strLink)
-				&& !badUrls.contains(strLink)) {
+			if (!(getResult().containsKey(strLink) 
+				|| urlToCrawl.contains(strLink)
+				|| badUrls.contains(strLink))) {
 
-				URL urlLink;
-				try {
-					// absolute link
-					if (strLink.startsWith("http"))
-						urlLink = new URL(strLink);
-					else // relative link
-						urlLink = new URL(url, strLink);
-					strLink = urlLink.toString();
-					System.out.println(strLink);
-				} catch (MalformedURLException e) {
-					System.out.println("ERROR: bad URL " + strLink);
-					if (!badUrls.contains(strLink)) {
+				URL urlLink = createURL(url, strLink);
+				if (urlLink == null) {
+					if (!badUrls.contains(strLink))
 						badUrls.add(strLink);
-					}
 					continue;
 				}
-	
-				// only look at http links
-				if (urlLink.getProtocol().compareTo("http") != 0) {
-					System.out.println("Not http");
-					if (!badUrls.contains(strLink)) {
-						badUrls.add(strLink);
-					}
-					continue;
-				}
-	
-				// test and store the url
-				try {
-					// try opening the URL
-					URLConnection urlLinkConnection 
-						= urlLink.openConnection();
-					urlLinkConnection.setAllowUserInteraction(false);
-					InputStream linkStream = urlLink.openStream();
-					String strType
-						= urlLinkConnection.guessContentTypeFromStream(linkStream);
-					String strTypeTwo = urlLinkConnection.getContentType();
-					linkStream.close();
-	
-					// is text/html
-					if ((strTypeTwo != null && strTypeTwo.contains("text/html"))
-						|| (strType != null && strType.contains("text/html"))) {
-						// add new url to list
-						urlToCrawl.add(strLink);
-					}
-				} catch (IOException e) {
-			    	System.out.println("ERROR: couldn't open URL " + strLink);
-			    	if (!badUrls.contains(strLink)) {
-						badUrls.add(strLink);
-					}
-					continue;
-				}
+				// update strLink, it may changed
+				strLink = urlLink.toString();
+				success = tryAddUrl(urlLink, strLink);
+				if (!success) badUrls.add(strLink);
+				if (urlToCrawl.size() > resultLimit)
+					break;
 			} else
 				System.out.println(" is bad url");
-			// add to bad urls if not added
-			if (!result.containsKey(strLink) 
-				&& !urlToCrawl.contains(strLink)
-				&& !badUrls.contains(strLink)) {
-				badUrls.add(strLink);
+		}
+	}
+	/**
+	 * set a list of escape word, if a url contains escape word,
+	 * it will not be crawled 
+	 * @param escapeWords list of escape word
+	 */
+	public void setEscapeWords (List<String> escapeWords) {
+		_escapeWords = escapeWords;
+	}
+	/**
+	 * sleep the given millis
+	 * @param millis
+	 * @return
+	 */
+	/*package*/ boolean sleep (long millis) {
+		boolean success = true;
+		try {
+			Thread.sleep(millis);
+		} catch (Exception e) {
+			success = false;
+		}
+		return success;
+	}
+	/**
+	 * get a link from the content with given index
+	 * @param content the content string
+	 * @param index the index where start to get next link
+	 * @return String the next url link
+	 */
+	/*package*/ String getNextLink (String content, int index) {
+		String remaining = content.substring(index);
+		StringTokenizer st = new StringTokenizer(remaining, "\t\n\r\"<>#");
+		String strLink = st.nextToken();
+		// escpae this url if it contains escape words
+		if (hasEscapeWords(strLink))
+			return null;
+		// shift to the first http if exists
+		if (!strLink.startsWith("http") && strLink.contains("http")) {
+			strLink = strLink.substring(strLink.indexOf("http"));
+		}
+		// cut the tail after htm or html
+		if ((!strLink.endsWith("html") && strLink.contains("html"))
+			|| (!strLink.endsWith("htm") && strLink.contains("htm"))) {
+			boolean hasHtml = false;
+			if (strLink.contains("html")) {
+				strLink = strLink.substring(0, strLink.lastIndexOf("html") + 4);
+				hasHtml = true;
+			} else
+				strLink = strLink.substring(0, strLink.lastIndexOf("htm") + 3);
+			System.out.println(hasHtml + " modified tail " + strLink);
+		}
+		return strLink;
+	}
+	/**
+	 * create a url from the parent url and link string
+	 * @param url the parent url
+	 * @param strLink link string
+	 * @return URL the created url
+	 */
+	/*package*/ URL createURL (URL url, String strLink) {
+		URL urlLink;
+		try {
+			// absolute link
+			if (strLink.startsWith("http"))
+				urlLink = new URL(strLink);
+			else // relative link
+				urlLink = new URL(url, strLink);
+			strLink = urlLink.toString();
+		} catch (MalformedURLException e) {
+			System.out.println("ERROR: bad URL " + strLink);
+			return null;
+		}
+
+		// only look at http links
+		if (urlLink.getProtocol().compareTo("http") != 0) {
+			System.out.println("Not http");
+			return null;
+		}
+		return urlLink;
+	}
+	/**
+	 * check whether a link string contains escape word	
+	 * @param urlLink the link string
+	 * @return boolean, true if the given link string contains escape word
+	 */
+	/*package*/ boolean hasEscapeWords (String urlLink) {
+		if (_escapeWords != null) {
+			for (String s : _escapeWords) {
+				if (urlLink.toLowerCase().contains(s.toLowerCase()))
+					return true;
 			}
 		}
-		return subUrls;
+		return false;
+	}
+	/**
+	 * try add a link string to crawl list
+	 * @param urlLink the url to check
+	 * @param strLink the link string to add
+	 * @return boolean, true if add success
+	 */
+	/*package*/ boolean tryAddUrl (URL urlLink, String strLink) {
+		boolean success = false;
+		// test and store the url
+		try {
+			// try opening the URL
+			URLConnection urlLinkConnection 
+				= urlLink.openConnection();
+
+			urlLinkConnection.setAllowUserInteraction(false);
+			InputStream linkStream = urlLink.openStream();
+			String strType
+				= urlLinkConnection.guessContentTypeFromStream(linkStream);
+			String strTypeTwo = urlLinkConnection.getContentType();
+			linkStream.close();
+
+			// is text/html
+			if ((strTypeTwo != null && strTypeTwo.contains("text/html"))
+				|| (strType != null && strType.contains("text/html"))) {
+				// add new url to list
+				urlToCrawl.add(strLink);
+				success = true;
+			}
+		} catch (IOException e) {
+	    	System.out.println("ERROR: couldn't open URL " + strLink);
+		}
+		return success;
 	}
 
-	public static StringBuilder getResponse(String path, URL url){
+	/**
+	 * get response content from given url
+	 * @param url the url to get response
+	 * @return StringBuilder the response content
+	 */
+	/*package*/ StringBuilder getResponse(URL url){
 		try {
-			java.net.HttpURLConnection uc = (java.net.HttpURLConnection) url.openConnection();
-			uc.setRequestProperty("User-agent", "Mozilla/10.0");
-
-			uc.setRequestProperty("Accept-Charset", "UTF-8"); // encoding
-			uc.setReadTimeout(30000);// timeout limit
+			HttpURLConnection uc = getConnection(url);
 			uc.connect();// connect
 			int status = uc.getResponseCode();
 
@@ -225,6 +286,39 @@ public class SimpleCrawler implements Runnable {
 		}
 		return new StringBuilder("");
 	}
+	/**
+	 * get HttpURLConnection from given url
+	 * @param url the url to get HttpURLConnection
+	 * @return HttpURLConnection
+	 * @throws IOException
+	 */
+	/*package*/ HttpURLConnection getConnection (URL url) throws IOException {
+		HttpURLConnection uc = (java.net.HttpURLConnection) url.openConnection();
+
+		Map prop = new HashMap();
+		prop.put("User-agent", "Mozilla/5.0");
+		prop.put("Accept-Charset", "UTF-8");
+		setRequestProperties(uc, prop);
+
+		uc.setReadTimeout(30000);// timeout limit
+		return uc;
+	}
+	/**
+	 * set properties to a URLConnection
+	 * @param uc the URLConnection to set properties to
+	 * @param properties the properties to set
+	 */
+	/*package*/ void setRequestProperties (URLConnection uc, Map properties) {
+		if (properties != null) {
+			for (Object key : properties.keySet()) {
+				uc.setRequestProperty((String)key, (String)properties.get(key));
+			}
+		}
+	}
+	/**
+	 * get crawling result
+	 * @return
+	 */
 	public Map getResult () {
 		return result;
 	}
@@ -233,9 +327,12 @@ public class SimpleCrawler implements Runnable {
 	 * @return boolean
 	 */
 	public boolean isStopped () {
-		return stopped;
+		return _stopped;
 	}
-	public static void main (String[] args) {
+	public void setStopped (boolean stopped) {
+		_stopped = stopped;
+	}
+	public static void main (String[] args) throws Exception {
 		SimpleCrawler crawler = new SimpleCrawler();
 		// crawl this url
 		crawler.Crawl("http://java.sun.com", 2);
