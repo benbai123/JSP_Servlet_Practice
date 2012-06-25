@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<!-- short name -->
+	<shortname>ct</shortname>
+	<!-- uri -->
+	<uri>http://test.tag.custom/jsp/impl/taglib</uri>
+	<!-- Message Tag -->
+	<tag>
+		<!-- tag name -->
+		<name>errMsg</name>
+		<!-- tag class path -->
+		<tagclass>test.tag.custom.ErrMsg</tagclass>
+		<!-- simple tag do not have body -->
+		<bodycontent>empty</bodycontent>
+		<!-- attributes -->
+		<attribute>
+			<!-- attribute name -->
+			<name>msg</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (eval at runtime) -->
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<!-- attribute name -->
+			<name>msgDescription</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (eval at runtime) -->
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onClick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
