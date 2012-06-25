@@ -21,7 +21,7 @@
 			<name>msg</name>
 			<!-- required or not -->
 			<required>false</required>
-			<!-- el enable or not (eval at runtime) -->
+			<!-- el enable or not (true denotes can be eval at runtime) -->
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>

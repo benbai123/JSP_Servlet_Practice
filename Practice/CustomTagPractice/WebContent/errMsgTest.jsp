@@ -18,12 +18,15 @@
 		</style>
 		<script type="text/javascript">
 			function onErrClick (msg) {
+				// hide the message after clicked
 				msg.style.display = 'none';
 			}
 		</script>
 	</head>
 	<body>
+		<!-- Use default style and action -->
 		<ct:errMsg msg="Error" msgDescription="This is test error message" />
+		<!-- Use custom style and action -->
 		<ct:errMsg msg="Error" styleClass="err_msg_class" onClick="onErrClick(this);" />
 	</body>
 </html>
