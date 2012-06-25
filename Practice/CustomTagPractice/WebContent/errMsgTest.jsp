@@ -1,10 +1,8 @@
 <%@ page isErrorPage="true" language="java"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- EL is required -->
 <%@ page isELIgnored ="false" %>
+<!-- use the custom taglib with prefix ct -->
 <%@taglib prefix="ct" uri="http://test.tag.custom/jsp/impl/taglib"%>
-<!-- This page practice EL Logic and Arithmetic operators
-	num_one = 1, num_two = 2 -->
 <html>
 	<head>
 		<meta http-equiv="Content-Type" 
