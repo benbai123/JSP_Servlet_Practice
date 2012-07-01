@@ -43,4 +43,46 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
+	<!-- fadeoutBlock tag -->
+	<tag>
+		<!-- tag name -->
+		<name>fadeoutBlock</name>
+		<!-- tag class path -->
+		<tagclass>test.tag.custom.FadeoutBlock</tagclass>
+		<!-- denotes the tag has JSP body content -->
+		<bodycontent>JSP</bodycontent>
+		<!-- attributes -->
+		<attribute>
+			<!-- attribute name -->
+			<name>style</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<!-- attribute name -->
+			<name>styleClass</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<!-- attribute name -->
+			<name>duration</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<!-- attribute name -->
+			<name>step</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>

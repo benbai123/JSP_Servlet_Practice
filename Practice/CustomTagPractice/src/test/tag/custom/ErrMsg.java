@@ -4,9 +4,9 @@ import java.io.*;
 import javax.servlet.jsp.*;
 import javax.servlet.jsp.tagext.*;
 /**
-* Error Message JSP Custom Tag, simple tag, no tag body
-*
-*/
+ * Error Message JSP Custom Tag, simple tag, no tag body
+ *
+ */
 public class ErrMsg extends TagSupport {
 	private static final long serialVersionUID = -2121640315534820214L;
 
@@ -47,36 +47,31 @@ public class ErrMsg extends TagSupport {
 	 */
 	public int doStartTag() throws JspException {
 		try {
+			JspWriter out = pageContext.getOut();
 			if(_msg != null){
 				//-- output span's start tag
-				pageContext.getOut()
-					.print("<span");
+				out.print("<span");
 
 				//-- output default style or specified class
 				if (_styleClass == null) {
-					pageContext.getOut()
-						.print(" style=\"color: red; font-weight:bold;font-style:italic;\"");
+					out.print(" style=\"color: red; font-weight:bold;font-style:italic;\"");
 				} else {
-					pageContext.getOut()
-						.print(" class=\""
+					out.print(" class=\""
 								+ _styleClass
 								+ "\"");
 				}
 				//-- output default script or specified function
 				if (_onClick == null) {
-					pageContext.getOut()
-						.print(" onclick=\"alert('"
+					out.print(" onclick=\"alert('"
 								+ _msg
 								+ (_msgDescription == null? "" : ": "+_msgDescription)
 								+ "');\"");
 				} else {
-					pageContext.getOut()
-						.print(" onclick=\""
+					out.print(" onclick=\""
 								+ _onClick+"\"");
 				}
 				// finish span's start tag, output _msg.
-				pageContext.getOut()
-					.print(">" + _msg);
+				out.print(">" + _msg);
 			}
 		} catch (Exception e) {
 			throw new JspException("Error: IOException while writing to client");
