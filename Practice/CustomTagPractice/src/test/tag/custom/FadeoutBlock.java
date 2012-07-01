@@ -13,8 +13,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class FadeoutBlock extends TagSupport {
 
 	private static final long serialVersionUID = 3563006227719937104L;
-	private String _style = "background-color: CCBBEE;"; //--css class
-	private String _styleClass = null;
+	private String _style = "background-color: CCBBEE;";
+	private String _styleClass = null; //--css class
 	private Integer _duration = 1000;
 	private float _step = 0.1f;
 
