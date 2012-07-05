@@ -92,4 +92,13 @@ public class ErrMsg extends TagSupport {
 		//-- continue processing the page
 		return EVAL_PAGE;
 	}
+	/**
+	 * reset attributes, container maybe reuse this object
+	 */
+	public void release() {
+		_msg = null;
+		_msgDescription = null;
+		_styleClass = null;
+		_onClick = null;
+	}
 }

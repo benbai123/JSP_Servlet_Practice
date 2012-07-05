@@ -102,4 +102,13 @@ public class FadeoutBlock extends TagSupport {
 		
 		return sb.toString();
 	}
+	/**
+	 * reset attributes, container maybe reuse this object
+	 */
+	public void release() {
+		_style = "background-color: CCBBEE;";
+		_styleClass = null;
+		_duration = 1000;
+		_step = 0.1f;
+	}
 }
