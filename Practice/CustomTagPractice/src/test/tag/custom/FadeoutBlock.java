@@ -79,6 +79,7 @@ public class FadeoutBlock extends TagSupport {
 		catch (IOException ioe) {
 			throw new JspException("Error: IOException while writing to client");
 		}
+		release();
 		//-- continue process the page
 		return EVAL_PAGE;
 	}

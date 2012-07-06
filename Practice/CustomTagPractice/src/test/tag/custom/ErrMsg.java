@@ -89,6 +89,7 @@ public class ErrMsg extends TagSupport {
 		} catch (IOException ioe) {
 			throw new JspException("Error: IOException while writing to client");
 		}
+		release();
 		//-- continue processing the page
 		return EVAL_PAGE;
 	}
