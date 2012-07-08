@@ -85,4 +85,44 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
+	<tag>
+		<!-- tag name -->
+		<name>tabbox</name>
+		<!-- tag class path -->
+		<tagclass>test.tag.custom.Tabbox</tagclass>
+		<!-- denotes the tag has JSP body content -->
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<!-- attribute name -->
+			<name>width</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<!-- attribute name -->
+			<name>height</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<!-- tag name -->
+		<name>tabpanel</name>
+		<!-- tag class path -->
+		<tagclass>test.tag.custom.Tabpanel</tagclass>
+		<!-- denotes the tag has JSP body content -->
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<!-- attribute name -->
+			<name>header</name>
+			<!-- required or not -->
+			<required>false</required>
+			<!-- el enable or not (true denotes can be eval at runtime) -->
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>

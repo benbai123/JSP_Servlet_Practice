@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.TagSupport;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 
 /**
  * Fadeout Block JSP Custom Tag, body tag, can contain jsp content body.
  *
  */
-public class FadeoutBlock extends TagSupport {
+public class FadeoutBlock extends BodyTagSupport {
 
 	private static final long serialVersionUID = 3563006227719937104L;
 	private String _style = "background-color: CCBBEE;";
