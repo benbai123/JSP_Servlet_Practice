@@ -1,0 +1,399 @@
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@156ee8e]: [Thread[main,5,main]]: start() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: run() entered
+[Server@156ee8e]: Initiating startup sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.maxdatabases=10
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.tls=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.trace=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.database.0=file:testPath
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.restart_on_shutdown=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.no_system_exit=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.silent=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.default_page=index.html
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.address=0.0.0.0
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.dbname.0=testName
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.root=.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@156ee8e]: Server socket opened successfully in 7 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Opening database: [file:testPath]
+[Server@156ee8e]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 637 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() exiting
+[Server@156ee8e]: Startup sequence completed in 646 ms.
+[Server@156ee8e]: 2012-10-10 19:53:37.369 HSQLDB server 2.2.9 is online on port 9001
+[Server@156ee8e]: To close normally, connect and execute SHUTDOWN SQL
+[Server@156ee8e]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@156ee8e]: [Thread[main,5,main]]: start() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61012,localport=9001]) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection() exited
+[Server@156ee8e]: [Thread[HSQLDB Connection @18a7efd,5,HSQLDB Connections @156ee8e]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@156ee8e]: [Thread[HSQLDB Connection @18a7efd,5,HSQLDB Connections @156ee8e]]: 0:Connected user 'sa'
+[Server@156ee8e]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@156ee8e]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_1012155072', 'lastName_-1273088880')
+[Server@156ee8e]: 0:select * from testTable;
+[Server@156ee8e]: 0:SQLCLI:SQLDISCONNECT
+[Server@156ee8e]: [Thread[main,5,main]]: stop() entered
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[main,5,main]]: stop() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() entered
+[Server@156ee8e]: Initiating shutdown sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: HSQLDB Connections @156ee8e destroyed
+[Server@156ee8e]: Shutdown sequence completed in 52 ms.
+[Server@156ee8e]: 2012-10-10 19:53:37.650 SHUTDOWN : System.exit() was not called
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: ServerThread.run() exited
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@156ee8e]: [Thread[main,5,main]]: start() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: run() entered
+[Server@156ee8e]: Initiating startup sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.maxdatabases=10
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.tls=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.trace=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.database.0=file:testPath
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.restart_on_shutdown=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.no_system_exit=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.silent=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.default_page=index.html
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.address=0.0.0.0
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.dbname.0=testName
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.root=.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@156ee8e]: Server socket opened successfully in 7 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Opening database: [file:testPath]
+[Server@156ee8e]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 4718 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() exiting
+[Server@156ee8e]: Startup sequence completed in 4727 ms.
+[Server@156ee8e]: 2012-10-10 19:53:48.468 HSQLDB server 2.2.9 is online on port 9001
+[Server@156ee8e]: To close normally, connect and execute SHUTDOWN SQL
+[Server@156ee8e]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@156ee8e]: [Thread[main,5,main]]: start() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61013,localport=9001]) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection() exited
+[Server@156ee8e]: [Thread[HSQLDB Connection @1632c2d,5,HSQLDB Connections @156ee8e]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@156ee8e]: [Thread[HSQLDB Connection @1632c2d,5,HSQLDB Connections @156ee8e]]: 0:Connected user 'sa'
+[Server@156ee8e]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@156ee8e]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_-779813518', 'lastName_-79775916')
+[Server@156ee8e]: 0:select * from testTable;
+[Server@156ee8e]: 0:SQLCLI:SQLDISCONNECT
+[Server@156ee8e]: [Thread[main,5,main]]: stop() entered
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[main,5,main]]: stop() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() entered
+[Server@156ee8e]: Initiating shutdown sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: HSQLDB Connections @156ee8e destroyed
+[Server@156ee8e]: Shutdown sequence completed in 51 ms.
+[Server@156ee8e]: 2012-10-10 19:53:48.770 SHUTDOWN : System.exit() was not called
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: ServerThread.run() exited
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@156ee8e]: [Thread[main,5,main]]: start() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: run() entered
+[Server@156ee8e]: Initiating startup sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.maxdatabases=10
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.tls=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.trace=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.database.0=file:testPath
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.restart_on_shutdown=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.no_system_exit=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.silent=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.default_page=index.html
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.address=0.0.0.0
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.dbname.0=testName
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.root=.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@156ee8e]: Server socket opened successfully in 7 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Opening database: [file:testPath]
+[Server@156ee8e]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 670 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() exiting
+[Server@156ee8e]: Startup sequence completed in 679 ms.
+[Server@156ee8e]: 2012-10-10 20:14:04.381 HSQLDB server 2.2.9 is online on port 9001
+[Server@156ee8e]: To close normally, connect and execute SHUTDOWN SQL
+[Server@156ee8e]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@156ee8e]: [Thread[main,5,main]]: start() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61159,localport=9001]) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection() exited
+[Server@156ee8e]: [Thread[HSQLDB Connection @bf2d5e,5,HSQLDB Connections @156ee8e]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@156ee8e]: [Thread[HSQLDB Connection @bf2d5e,5,HSQLDB Connections @156ee8e]]: 0:Connected user 'sa'
+[Server@156ee8e]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@156ee8e]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_-9358765', 'lastName_2047065069')
+[Server@156ee8e]: 0:select * from testTable;
+[Server@156ee8e]: 0:SQLCLI:SQLDISCONNECT
+[Server@156ee8e]: [Thread[main,5,main]]: stop() entered
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[main,5,main]]: stop() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() entered
+[Server@156ee8e]: Initiating shutdown sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: HSQLDB Connections @156ee8e destroyed
+[Server@156ee8e]: Shutdown sequence completed in 49 ms.
+[Server@156ee8e]: 2012-10-10 20:14:04.635 SHUTDOWN : System.exit() was not called
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: ServerThread.run() exited
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@de6f34]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@de6f34]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@de6f34]: [Thread[main,5,main]]: start() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: run() entered
+[Server@de6f34]: Initiating startup sequence...
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.maxdatabases=10
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.tls=false
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.trace=false
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.database.0=file:testPath
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.restart_on_shutdown=false
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.no_system_exit=true
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.silent=true
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.default_page=index.html
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.address=0.0.0.0
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.dbname.0=testName
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.root=.
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openServerSocket() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@de6f34]: Server socket opened successfully in 8 ms.
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openServerSocket() exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openDatabases() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: Opening database: [file:testPath]
+[Server@de6f34]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 600 ms.
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openDatabases() exiting
+[Server@de6f34]: Startup sequence completed in 611 ms.
+[Server@de6f34]: 2012-10-10 20:14:35.541 HSQLDB server 2.2.9 is online on port 9001
+[Server@de6f34]: To close normally, connect and execute SHUTDOWN SQL
+[Server@de6f34]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@de6f34]: [Thread[main,5,main]]: start() exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61160,localport=9001]) entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: handleConnection() exited
+[Server@de6f34]: [Thread[HSQLDB Connection @bf2d5e,5,HSQLDB Connections @de6f34]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@de6f34]: [Thread[HSQLDB Connection @bf2d5e,5,HSQLDB Connections @de6f34]]: 0:Connected user 'sa'
+[Server@de6f34]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@de6f34]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_477859334', 'lastName_1019856461')
+[Server@de6f34]: 0:select * from testTable;
+[Server@de6f34]: 0:SQLCLI:SQLDISCONNECT
+[Server@de6f34]: [Thread[main,5,main]]: stop() entered
+[Server@de6f34]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@de6f34]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@de6f34]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@de6f34]: [Thread[main,5,main]]: stop() exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: shutdown() entered
+[Server@de6f34]: Initiating shutdown sequence...
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseServerSocket() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseServerSocket() exited
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseDatabase(0) entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseDatabase(0) exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: HSQLDB Connections @de6f34 destroyed
+[Server@de6f34]: Shutdown sequence completed in 48 ms.
+[Server@de6f34]: 2012-10-10 20:14:35.864 SHUTDOWN : System.exit() was not called
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: shutdown() exited
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: ServerThread.run() exited
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@156ee8e]: [Thread[main,5,main]]: start() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: run() entered
+[Server@156ee8e]: Initiating startup sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.maxdatabases=10
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.tls=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.trace=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.database.0=file:testPath
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.restart_on_shutdown=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.no_system_exit=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.silent=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.default_page=index.html
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.address=0.0.0.0
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.dbname.0=testName
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.root=.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@156ee8e]: Server socket opened successfully in 8 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Opening database: [file:testPath]
+[Server@156ee8e]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 584 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() exiting
+[Server@156ee8e]: Startup sequence completed in 595 ms.
+[Server@156ee8e]: 2012-10-10 20:15:32.500 HSQLDB server 2.2.9 is online on port 9001
+[Server@156ee8e]: To close normally, connect and execute SHUTDOWN SQL
+[Server@156ee8e]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@156ee8e]: [Thread[main,5,main]]: start() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61161,localport=9001]) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection() exited
+[Server@156ee8e]: [Thread[HSQLDB Connection @1c39a2d,5,HSQLDB Connections @156ee8e]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@156ee8e]: [Thread[HSQLDB Connection @1c39a2d,5,HSQLDB Connections @156ee8e]]: 0:Connected user 'sa'
+[Server@156ee8e]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@156ee8e]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_1883334367', 'lastName_-370090989')
+[Server@156ee8e]: 0:select * from testTable;
+[Server@156ee8e]: 0:SQLCLI:SQLDISCONNECT
+[Server@156ee8e]: [Thread[main,5,main]]: stop() entered
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() entered
+[Server@156ee8e]: [Thread[main,5,main]]: stop() exiting
+[Server@156ee8e]: Initiating shutdown sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: HSQLDB Connections @156ee8e destroyed
+[Server@156ee8e]: Shutdown sequence completed in 44 ms.
+[Server@156ee8e]: 2012-10-10 20:15:32.713 SHUTDOWN : System.exit() was not called
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: ServerThread.run() exited
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@156ee8e]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@156ee8e]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@156ee8e]: [Thread[main,5,main]]: start() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: run() entered
+[Server@156ee8e]: Initiating startup sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.maxdatabases=10
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.tls=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.trace=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.database.0=file:testPath
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.restart_on_shutdown=false
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.no_system_exit=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.silent=true
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.default_page=index.html
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.address=0.0.0.0
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.dbname.0=testName
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: server.root=.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@156ee8e]: Server socket opened successfully in 6 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openServerSocket() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: Opening database: [file:testPath]
+[Server@156ee8e]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 603 ms.
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: openDatabases() exiting
+[Server@156ee8e]: Startup sequence completed in 612 ms.
+[Server@156ee8e]: 2012-10-10 20:36:37.542 HSQLDB server 2.2.9 is online on port 9001
+[Server@156ee8e]: To close normally, connect and execute SHUTDOWN SQL
+[Server@156ee8e]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@156ee8e]: [Thread[main,5,main]]: start() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61214,localport=9001]) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: handleConnection() exited
+[Server@156ee8e]: [Thread[HSQLDB Connection @cdedfd,5,HSQLDB Connections @156ee8e]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@156ee8e]: [Thread[HSQLDB Connection @cdedfd,5,HSQLDB Connections @156ee8e]]: 0:Connected user 'sa'
+[Server@156ee8e]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@156ee8e]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_-2052668706', 'lastName_63226878')
+[Server@156ee8e]: 0:select * from testTable;
+[Server@156ee8e]: 0:SQLCLI:SQLDISCONNECT
+[Server@156ee8e]: [Thread[main,5,main]]: stop() entered
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@156ee8e]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[main,5,main]]: stop() exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() entered
+[Server@156ee8e]: Initiating shutdown sequence...
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseServerSocket() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) entered
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: releaseDatabase(0) exiting
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: HSQLDB Connections @156ee8e destroyed
+[Server@156ee8e]: Shutdown sequence completed in 48 ms.
+[Server@156ee8e]: 2012-10-10 20:36:37.864 SHUTDOWN : System.exit() was not called
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: shutdown() exited
+[Server@156ee8e]: [Thread[HSQLDB Server @156ee8e,5,main]]: ServerThread.run() exited
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@de6f34]: [Thread[main,5,main]]: setDatabaseName(0,testName)
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) entered
+[Server@de6f34]: [Thread[main,5,main]]: checkRunning(false) exited
+[Server@de6f34]: [Thread[main,5,main]]: setDatabasePath(0,file:testPath)
+[Server@de6f34]: [Thread[main,5,main]]: start() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: run() entered
+[Server@de6f34]: Initiating startup sequence...
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.maxdatabases=10
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.tls=false
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.trace=false
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.database.0=file:testPath
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.restart_on_shutdown=false
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.no_system_exit=true
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.silent=true
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.default_page=index.html
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.address=0.0.0.0
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.dbname.0=testName
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: server.root=.
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openServerSocket() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: Got server socket: ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]
+[Server@de6f34]: Server socket opened successfully in 9 ms.
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openServerSocket() exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openDatabases() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: Opening database: [file:testPath]
+[Server@de6f34]: Database [index=0, id=0, db=file:testPath, alias=testname] opened sucessfully in 564 ms.
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: openDatabases() exiting
+[Server@de6f34]: Startup sequence completed in 575 ms.
+[Server@de6f34]: 2012-10-10 20:37:32.904 HSQLDB server 2.2.9 is online on port 9001
+[Server@de6f34]: To close normally, connect and execute SHUTDOWN SQL
+[Server@de6f34]: From command line, use [Ctrl]+[C] to abort abruptly
+[Server@de6f34]: [Thread[main,5,main]]: start() exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: handleConnection(Socket[addr=/127.0.0.1,port=61215,localport=9001]) entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: handleConnection() exited
+[Server@de6f34]: [Thread[HSQLDB Connection @1c39a2d,5,HSQLDB Connections @de6f34]]: 0:Trying to connect user 'sa' to DB (testname)
+[Server@de6f34]: [Thread[HSQLDB Connection @1c39a2d,5,HSQLDB Connections @de6f34]]: 0:Connected user 'sa'
+[Server@de6f34]: 0:CREATE TABLE IF NOT EXISTS testTable ( id BIGINT NOT NULL IDENTITY,firstName VARCHAR(32),lastName VARCHAR(32));
+[Server@de6f34]: 0:INSERT INTO testTable (firstName, lastName) VALUES('firstName_694349338', 'lastName_-507953254')
+[Server@de6f34]: 0:select * from testTable;
+[Server@de6f34]: 0:SQLCLI:SQLDISCONNECT
+[Server@de6f34]: [Thread[main,5,main]]: stop() entered
+[Server@de6f34]: [Thread[main,5,main]]: releaseServerSocket() entered
+[Server@de6f34]: [Thread[main,5,main]]: Releasing server socket: [ServerSocket[addr=0.0.0.0/0.0.0.0,port=0,localport=9001]]
+[Server@de6f34]: [Thread[main,5,main]]: releaseServerSocket() exited
+[Server@de6f34]: [Thread[main,5,main]]: stop() exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: shutdown() entered
+[Server@de6f34]: Initiating shutdown sequence...
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseServerSocket() entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseServerSocket() exited
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseDatabase(0) entered
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: releaseDatabase(0) exiting
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: HSQLDB Connections @de6f34 destroyed
+[Server@de6f34]: Shutdown sequence completed in 39 ms.
+[Server@de6f34]: 2012-10-10 20:37:33.131 SHUTDOWN : System.exit() was not called
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: shutdown() exited
+[Server@de6f34]: [Thread[HSQLDB Server @de6f34,5,main]]: ServerThread.run() exited
