@@ -35,6 +35,23 @@ public class TestWebSocketServlet extends WebSocketServlet {
 	@Override
 	protected StreamInbound createWebSocketInbound(String subProtocol,
 			HttpServletRequest request) {
+		/* enable this fragment to send message by server directly
+		 * 
+		if (_cnt.getAndIncrement() == 0) {
+			new Thread(new Runnable(){
+				public void run () {
+					try{
+						while (true) {
+							send();
+							Thread.sleep(1000);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+		*/
 		return new TestMessageInbound();
 	}
 	private final class TestMessageInbound extends MessageInbound {
@@ -58,13 +75,16 @@ public class TestWebSocketServlet extends WebSocketServlet {
 		// while receive a text message
 		@Override
 		protected void onTextMessage(CharBuffer message) throws IOException {
-			String msg = "Current count: " + _cnt.getAndIncrement();
-			for (TestMessageInbound connection : connections) {
-				try {
-					connection.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
-				} catch (IOException ignore) {
-					/* ignore */
-				}
+			send();
+		}
+	}
+	public void send () {
+		String msg = "Current count: " + _cnt.getAndIncrement();
+		for (TestMessageInbound connection : connections) {
+			try {
+				connection.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+			} catch (IOException ignore) {
+				/* ignore */
 			}
 		}
 	}
