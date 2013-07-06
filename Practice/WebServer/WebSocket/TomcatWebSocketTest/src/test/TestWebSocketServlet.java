@@ -15,7 +15,7 @@ import org.apache.catalina.websocket.WebSocketServlet;
 import org.apache.catalina.websocket.WsOutbound;
 
 /**
- * Tested with Tomcat 7.40
+ * Tested with Tomcat 7.0.42
  * @author benbai123
  *
  */
