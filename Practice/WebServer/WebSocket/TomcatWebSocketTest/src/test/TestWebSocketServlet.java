@@ -14,32 +14,48 @@ import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
 import org.apache.catalina.websocket.WsOutbound;
 
+/**
+ * Tested with Tomcat 7.40
+ * @author benbai123
+ *
+ */
 public class TestWebSocketServlet extends WebSocketServlet {
 
 	private static final long serialVersionUID = -7663708549630020769L;
 
+	// for message that will be sent to client
 	private final AtomicInteger _cnt = new AtomicInteger(0);
+	// hold each connection in this Set
 	private final Set<TestMessageInbound> connections =
 		new CopyOnWriteArraySet<TestMessageInbound>();
+	/**
+	 * For create connection only, each connection will
+	 * handle it self as needed
+	 */
 	@Override
 	protected StreamInbound createWebSocketInbound(String subProtocol,
 			HttpServletRequest request) {
 		return new TestMessageInbound();
 	}
 	private final class TestMessageInbound extends MessageInbound {
+		// add self instance into connections Set while opened
 		@Override
 		protected void onOpen(WsOutbound outbound) {
 			connections.add(this);
 		}
+		// remove self instance from connections Set whild closed
 		@Override
 		protected void onClose(int status) {
 			connections.remove(this);
 		}
+		// ignore binary message since we just want to process text messages
 		@Override
 		protected void onBinaryMessage(ByteBuffer message) throws IOException {
 			throw new UnsupportedOperationException(
 				"Unsupported: Binary message.");
 		}
+		// send a message to each connection in connections Set
+		// while receive a text message
 		@Override
 		protected void onTextMessage(CharBuffer message) throws IOException {
 			String msg = "Current count: " + _cnt.getAndIncrement();
