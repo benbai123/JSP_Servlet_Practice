@@ -7,8 +7,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-@WebFilter(filterName="PracticeOne", urlPatterns={"/index.jsp"})
-// practice: filter config by annotation, filter, send error
+@WebFilter(filterName="TestFilter", urlPatterns={"/index.jsp"})
 public class TestFilter implements Filter {
 	private static final String[] _groups = {"GroupOne", "GroupTwo", "GroupThree"};
 	@Override
