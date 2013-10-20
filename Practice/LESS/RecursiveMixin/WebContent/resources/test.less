@@ -1,0 +1,23 @@
+// comments to displayed in compiled css
+/* compiled css */
+
+// define variable
+@base-color: #EEEEEE;
+@dec-base: #111111;
+
+// define Mixin behave like function
+// parameter @idx with default value 1
+.box(@idx: 1) when (@idx < 6) {
+	// create selector
+	.class@{idx} {
+		// border with calculated border color,
+		// e.g., #EEEEEE - #111111*1*2 = #CCCCCC
+		border: 10px solid (@base-color - @dec-base*@idx*2);
+		display: inline-block;
+		// increase @idx,
+		// call .box recursively to create nested selectors
+		.box(@idx + 1);
+	} 
+}
+// call .box with default @idx
+.box();
