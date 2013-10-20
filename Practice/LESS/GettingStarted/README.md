@@ -1,6 +1,4 @@
 
 ### Related Article
 
-working...
-
-[link to be added](http://url-to-article)
+[LESS Getting Started](http://ben-bai.blogspot.tw/2013/10/less-getting-started.html)
