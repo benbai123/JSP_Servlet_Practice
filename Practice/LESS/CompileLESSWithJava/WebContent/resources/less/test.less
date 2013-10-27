@@ -1,0 +1,31 @@
+// use // to comment in less file only
+// use /* */ to commment in less and compiled css
+/* compiled css */
+// define variable
+@base-color: #EEEEEE;
+
+// define Mixin behave like function
+// parameter @dec with default value #111111
+.box(@dec: #111111) {
+	// border with calculated border color,
+	// e.g., #EEEEEE - #111111*2 = #CCCCCC
+	border: 10px solid (@base-color - @dec*2);
+	display: inline-block;
+}
+
+// nest selectors inside other selectors
+.class1 {
+	.box; // include .box with default value of parameter
+	.class2 { // .class1 .class2
+		.box(#222222); // include .box with @dec = #222222
+		.class3 { // .class1 .class2 .class3
+			.box(#333333);
+			.class4 { // .class1 .class2 .class3 .class4
+				.box(#444444);
+				.class5 { // .class1 .class2 .class3 .class4 .class5
+					.box(#555555);
+				}
+			}
+		}
+	}
+}
