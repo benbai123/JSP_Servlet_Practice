@@ -16,6 +16,7 @@ import net.lingala.zip4j.util.Zip4jConstants;
  * References:
  * 		http://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-unzip-files
  * 		http://stackoverflow.com/questions/12562519/zip4j-zipping-for-files-and-folders-in-java
+ * 		examples downloaded from http://www.lingala.net/zip4j/download.php
  *
  */
 public class Test {
