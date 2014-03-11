@@ -11,6 +11,9 @@
 
 		Using FileUpload
 		http://commons.apache.org/proper/commons-fileupload/using.html
+
+		The answer at
+		http://stackoverflow.com/questions/5700172/jsp-ajax-file-uploading
  -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
