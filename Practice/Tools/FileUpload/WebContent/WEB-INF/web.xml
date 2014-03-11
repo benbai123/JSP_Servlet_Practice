@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
 	<display-name>FileUpload</display-name>
+	<!-- basic upload servlet -->
 	<servlet>
 		<servlet-name>UploadServlet</servlet-name>
 		<servlet-class>test.UploadServlet</servlet-class>
@@ -9,7 +10,17 @@
 	<servlet-mapping>
 		<servlet-name>UploadServlet</servlet-name>
 		<url-pattern>upload.go</url-pattern>
-	</servlet-mapping> 
+	</servlet-mapping>
+	<!-- upload servlet supports progress bar -->
+	<servlet>
+		<servlet-name>UploadProgressServlet</servlet-name>
+		<servlet-class>test.UploadProgressServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadProgressServlet</servlet-name>
+		<url-pattern>uploadprogress.go</url-pattern>
+	</servlet-mapping>
 	<listener>
 		<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
 	</listener>
