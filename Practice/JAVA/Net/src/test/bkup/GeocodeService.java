@@ -4,16 +4,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import net.sf.json.JSONObject;
-/** 
- *                      NOTE:
- *
- * I made a mistake that sent wrong url, so I switched the file name of
- * GeocodeService.java and IPLookupService.java to let the receiver can refer to correct code.
- *
- * Please either switch them back or copy / replace files from bkup folder.
- * I'll switch them back in one month.
- *
- */
+
 /**
  * required jar files:
  * json-lib: http://sourceforge.net/projects/json-lib/files/json-lib/
