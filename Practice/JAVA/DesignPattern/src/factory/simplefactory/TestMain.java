@@ -6,6 +6,17 @@ import java.util.List;
 
 import factory.simplefactory.food.Bread;
 
+/** Test for Simple Factory
+ * 
+ * Simple Factory:
+ * 		Is not a GoF Design Pattern, simply returns one of many different classes that
+ * 		inherit from the same parent class or implement the same interface
+ * 		so the program (client) Can rely on the superclass/interface, do not need to
+ * 		know the concrete subclass
+ * 
+ * @author benbai123
+ *
+ */
 public class TestMain {
 	public static void main (String args[]) {
 		// today
