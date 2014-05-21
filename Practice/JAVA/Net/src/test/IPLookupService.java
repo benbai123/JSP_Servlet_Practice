@@ -1,19 +1,9 @@
 package test;
 
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 import net.sf.json.JSONObject;
-/** 
- *                      NOTE:
- *
- * I made a mistake that sent wrong url, so I switched the file name of
- * GeocodeService.java and IPLookupService.java to let the receiver can refer to correct code.
- *
- * Please either switch them back or copy / replace files from bkup folder.
- * I'll switch them back in one month.
- *
- */
+
 /**
  * required jar files:
  * json-lib: http://sourceforge.net/projects/json-lib/files/json-lib/
@@ -24,30 +14,38 @@ import net.sf.json.JSONObject;
  * ezmorph-1.0.6.jar http://sourceforge.net/projects/ezmorph/files/ezmorph/
  *
  */
-public class GeocodeService {
-	public static void main (String args[]) {
-		String result = null;
-		try {
-			System.out.println("First request\n\n");
-			// request service by Lat, Lng
-			StringBuilder sb = getResponse("http://maps.googleapis.com/maps/api/geocode/json?latlng=40.70594140,-74.0088760&sensor=true&language=ja");
-			result = sb.toString();
-			System.out.println(result+"\n");
-			System.out.println("Second request\n\n");
-			sb.setLength(0);
-			// request service by address
-			sb = getResponse("http://maps.googleapis.com/maps/api/geocode/json?address="
-					+java.net.URLEncoder.encode("59 ウォール街 マンハッタン ニューヨーク 10005 アメリカ合衆国", "UTF-8")+"&sensor=true&language=en");
-			result = sb.toString();
-			System.out.println(result);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+public class IPLookupService {
+	public static void main (String[] args) {
+		AddressInfo info = ipToLocation("98.76.54.32");
+		System.out.println(info.getCountryName());
+		System.out.println(info.getCountryCode());
+		System.out.println(info.getCity());
+		System.out.println(info.getLat());
+		System.out.println(info.getLng());
+		System.out.println(info.getFormattedAddress());
 	}
-
+	/**
+	 * return country, city, address by given IP
+	 * @param ip
+	 * @return
+	 */
+	public static AddressInfo ipToLocation (String ip) {
+		String country;
+		AddressInfo info = null;
+		double lat;
+		double lng;
+		StringBuilder sb = getResponse(
+				"http://api.hostip.info/get_json.php?ip=" + ip + "&position=true");
+		JSONObject jobj = JSONObject.fromObject(sb.toString());
+		lat = jobj.getDouble("lat");
+		lng = jobj.getDouble("lng");
+		info = new AddressInfo(jobj.getString("country_name"), jobj.getString("country_code"),
+				jobj.getString("city"), lat, lng,
+				GeocodeService.getAddressByLatLng(lat, lng, "ja"));
+		return info;
+	}
 	public static StringBuilder getResponse(String path){
 		try {
-			System.out.println(path);
 			java.net.URL url = new java.net.URL(path);
 			java.net.HttpURLConnection uc = (java.net.HttpURLConnection) url.openConnection();
 			uc.setRequestProperty("User-agent", "Mozilla/5.0");
@@ -84,18 +82,39 @@ public class GeocodeService {
 		}
 		return null;
 	}
-	/**
-	 * return formatted address by given lat/lng
-	 * @param lat
-	 * @param lng
-	 * @param lang
-	 * @return
-	 */
-	public static String getAddressByLatLng (double lat, double lng, String lang) {
-		StringBuilder sb = getResponse("http://maps.googleapis.com/maps/api/geocode/json?"
-				+ "latlng="+lat+","+lng
-				+ "&sensor=true&language="+lang);
-		JSONObject jobj = JSONObject.fromObject(sb.toString());
-		return jobj.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+}
+class AddressInfo {
+	private String _countryName;
+	private String _countryCode;
+	private String _city;
+	private double _lat;
+	private double _lng;
+	private String _formattedAddress;
+	AddressInfo (String countryName, String countryCode,
+		String city, double lat, double lng, String formattedAddress) {
+		_countryName = countryName;
+		_countryCode = countryCode;
+		_city = city;
+		_lat = lat;
+		_lng = lng;
+		_formattedAddress = formattedAddress;
+	}
+	public String getCountryName () {
+		return _countryName;
+	}
+	public String getCountryCode () {
+		return _countryCode;
+	}
+	public String getCity () {
+		return _city;
+	}
+	public double getLat () {
+		return _lat;
+	}
+	public double getLng () {
+		return _lng;
+	}
+	public String getFormattedAddress () {
+		return _formattedAddress;
 	}
 }
