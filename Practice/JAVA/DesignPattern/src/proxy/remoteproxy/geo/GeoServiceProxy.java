@@ -6,6 +6,8 @@ import com.google.gson.JsonParser;
 
 /** Interface for Google Geo Services
  * 
+ * the real Geo Service hosted by Google remotely
+ * 
  * @author benbai123
  *
  */

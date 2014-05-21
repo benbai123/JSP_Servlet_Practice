@@ -15,6 +15,8 @@ import proxy.remoteproxy.geo.GeoServiceProxy;
  * 		the different address location. Another example can be providing interface for
  * 		remote resources such as web service or REST resources.
  * 
+ * Ref: http://idiotechie.com/gang-of-four-proxy-design-pattern/
+ * 
  * @author benbai123
  *
  */
