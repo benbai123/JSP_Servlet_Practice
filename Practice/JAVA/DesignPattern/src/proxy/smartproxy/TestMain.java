@@ -14,7 +14,7 @@ import proxy.smartproxy.operator.OperatorProxy;
  * Reference: http://sourcemaking.com/design_patterns/proxy
  * 
  * This sample implements "Counting the number of references" in opposite way,
- * block a thread when there are too much objects.
+ * block a thread when there are too much Threads call doOperation.
  * 
  * @author benbai123
  *
