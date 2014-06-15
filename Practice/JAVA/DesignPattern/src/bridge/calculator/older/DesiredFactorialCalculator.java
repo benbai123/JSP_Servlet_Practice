@@ -1,6 +1,6 @@
-package adapter.calculator;
+package bridge.calculator.older;
 
-/** DesiredFactorialCalculator, already implements DesiredCalculator
+/** DesiredFactorialCalculator, implements DesiredCalculator
  * 
  * @author benbai123
  *

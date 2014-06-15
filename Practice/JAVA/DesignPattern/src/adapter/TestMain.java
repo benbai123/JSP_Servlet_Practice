@@ -18,8 +18,8 @@ import adapter.calculator.*;
 public class TestMain {
 	public static void main (String args[]) {
 		// show result of Factorial Calculator and PowerOfTwo Calculator
-		System.out.println(getResult(new DesiredFactorialCalculator(), 5));
-		System.out.println(getResult(new DesiredPowerOfTwoCalculator(), 5));
+		System.out.println("5! = " + getResult(new DesiredFactorialCalculator(), 5));
+		System.out.println("2^5 = " + getResult(new DesiredPowerOfTwoCalculator(), 5));
 	}
 	private static Number getResult (DesiredCalculator calc, Number source) {
 		calc.setSource(source);

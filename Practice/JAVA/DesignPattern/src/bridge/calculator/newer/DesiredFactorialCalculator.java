@@ -1,6 +1,6 @@
-package adapter.calculator;
+package bridge.calculator.newer;
 
-/** DesiredFactorialCalculator, already implements DesiredCalculator
+/** DesiredFactorialCalculator, implements DesiredCalculator
  * 
  * @author benbai123
  *
@@ -9,13 +9,13 @@ public class DesiredFactorialCalculator implements DesiredCalculator {
 	private Long _source;
 	private Long _result;
 
-	public void setSource (Number source) {
+	public void setData (Number source) {
 		if (source == null) {
 			source = 0;
 		}
 		_source = source.longValue();
 	}
-	public Number getResult() {
+	public Number getValue () {
 		if (_result == null) {
 			calc();
 		}
