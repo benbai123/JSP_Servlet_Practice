@@ -1,4 +1,4 @@
-package bridge.calculator.newer;
+package composite.calculator;
 
 /** DesiredFactorialCalculator, implements DesiredCalculator
  * 
@@ -6,16 +6,16 @@ package bridge.calculator.newer;
  *
  */
 public class DesiredFactorialCalculator implements DesiredCalculator {
-	private Long _data;
+	private Long _source;
 	private Long _result;
 
-	public void setData (Number data) {
-		if (data == null) {
-			data = 0;
+	public void setSource (Number source) {
+		if (source == null) {
+			source = 0;
 		}
-		_data = data.longValue();
+		_source = source.longValue();
 	}
-	public Number getValue () {
+	public Number getResult() {
 		if (_result == null) {
 			calc();
 		}
@@ -24,7 +24,7 @@ public class DesiredFactorialCalculator implements DesiredCalculator {
 
 	private void calc () {
 		_result = 1L;
-		for (int i = 2; i <= _data; i++) {
+		for (int i = 2; i <= _source; i++) {
 			_result = _result * i;
 		}
 	}

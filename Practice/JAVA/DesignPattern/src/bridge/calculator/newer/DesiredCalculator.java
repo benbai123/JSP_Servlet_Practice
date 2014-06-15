@@ -8,6 +8,6 @@ package bridge.calculator.newer;
  *
  */
 public interface DesiredCalculator {
-	public void setData (Number source);
+	public void setData (Number data);
 	public Number getValue ();
 }

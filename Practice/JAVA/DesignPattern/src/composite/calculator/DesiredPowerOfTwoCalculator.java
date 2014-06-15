@@ -1,4 +1,4 @@
-package bridge.calculator.newer;
+package composite.calculator;
 
 /** DesiredPowerOfTwoCalculator, implements DesiredCalculator.
  *  
@@ -6,16 +6,16 @@ package bridge.calculator.newer;
  *
  */
 public class DesiredPowerOfTwoCalculator implements DesiredCalculator {
-	private Double _data;
+	private Double _source;
 	private Double _result;
 
-	public void setData (Number data) {
-		if (data == null) {
-			data = 0;
+	public void setSource (Number source) {
+		if (source == null) {
+			source = 0;
 		}
-		_data = data.doubleValue();
+		_source = source.doubleValue();
 	}
-	public Number getValue () {
+	public Number getResult() {
 		if (_result == null) {
 			calc();
 		}
@@ -23,6 +23,6 @@ public class DesiredPowerOfTwoCalculator implements DesiredCalculator {
 	}
 
 	private void calc () {
-		_result = Math.pow(2.0, _data.doubleValue());
+		_result = Math.pow(2.0, _source.doubleValue());
 	}
 }
