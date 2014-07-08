@@ -21,17 +21,21 @@ public class FibRangedSum {
 
 	/** calculated sum */
 	private int _result = 0;
-	// constructor
+	// private constructor
 	private FibRangedSum (int start, int end) {
 		if (_fibsequence.size() < end) {
 			// add Fibonacci numbers into Fibonacci sequence if needed 
 			System.out.println("build sequence " + start + "-" + end);
-			buildtList(end);
+			synchronized (_fibsequence) {
+				buildtList(end);
+			}
 		}
+		// calculate result
 		for (int i = start-1; i < end; i++) {
 			_result += _fibsequence.get(i);
 		}
 	}
+	// get instance by range, Multiton pattern
 	public static FibRangedSum getInstance (int start, int end) {
 		String key = start + "-" + end;
 		FibRangedSum instance = _results.get(key);
@@ -46,7 +50,8 @@ public class FibRangedSum {
 	public int getResult () {
 		return _result;
 	}
-	// build Fibonacci sequence
+	// build Fibonacci sequence by size,
+	// not Multiton pattern but still Flyweight pattern
 	private void buildtList (int size) {
 		int _currentSize = _fibsequence.size();
 		for (int i = _currentSize; i < size; i++) {
