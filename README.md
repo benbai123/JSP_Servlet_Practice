@@ -17,6 +17,12 @@ Reference:
 
 [Basic Servlet Practice: Dynamic add servlet programmatically.](http://ben-bai.blogspot.com/2012/03/basic-servlet-practice-dynamic-add.html)
 
+### JAVA/Concurrent
+
+Reference
+
+[Thread Debounce and Throttle](https://ben-bai.blogspot.com/2019/09/thread-debounce-and-throttle.html)
+
 ### JAVA/Net
 
 A java.net practice
