@@ -19,9 +19,13 @@ Reference:
 
 ### JAVA/Concurrent
 
+Basic Thread, ExecutorService, etc
+
 Reference
 
 [Thread Debounce and Throttle](https://ben-bai.blogspot.com/2019/09/thread-debounce-and-throttle.html)
+
+[Use ExecutorService to Run Multiple Callable and Get Results In Order](https://ben-bai.blogspot.com/2019/09/use-executorservice-to-run-multiple.html)
 
 ### JAVA/Net
 
