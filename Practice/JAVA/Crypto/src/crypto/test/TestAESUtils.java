@@ -1,5 +1,7 @@
 package crypto.test;
 
+import java.util.Arrays;
+
 import javax.crypto.Cipher;
 import crypto.utils.AESUtils;
 
@@ -31,5 +33,10 @@ public class TestAESUtils {
 		System.out.println("\t### key = "+new String(key));
 		System.out.println("\t### encrypted = "+encrypted);
 		System.out.println("\t### decrypted = "+decrypted);
+		
+		// clear key data
+		Arrays.fill(key, '*');
+		// output key again
+		System.out.println("\t### key = "+new String(key));
 	}
 }

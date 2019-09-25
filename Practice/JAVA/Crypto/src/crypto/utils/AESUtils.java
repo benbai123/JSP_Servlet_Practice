@@ -1,6 +1,8 @@
 package crypto.utils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -31,10 +33,11 @@ public class AESUtils {
 		keyGen.init(size);
 		SecretKey secretKey = keyGen.generateKey();
 		byte[] encodedKey = secretKey.getEncoded();
-
-		return CryptoUtils.bytesToBase64Chars(encodedKey);
+		char[] base64Chars = CryptoUtils.bytesToBase64Chars(encodedKey);
+		// clear local array
+		Arrays.fill(encodedKey, (byte) 0);
+		return base64Chars;
 	}
-
 	/**
 	 * Encrypt with provided Cipher
 	 * 
@@ -89,6 +92,9 @@ public class AESUtils {
 		
 		Cipher cipher = Cipher.getInstance(CryptoConstants.AES_CBC_PKCS5PADDING.v);
 		cipher.init(mode, skeySpec, iv);
+		// clear local array
+		Arrays.fill(keyBytes, (byte) 0);
+		Arrays.fill(ivBytes, (byte) 0);
 		return cipher;
 	}
 }
