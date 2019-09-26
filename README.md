@@ -27,6 +27,12 @@ Reference
 
 [Use ExecutorService to Run Multiple Callable and Get Results In Order](https://ben-bai.blogspot.com/2019/09/use-executorservice-to-run-multiple.html)
 
+### JAVA/Crypto
+
+Key Generation, Encryption, Decryption
+
+[Java AES Key Generation, Encryption and Decryption](https://ben-bai.blogspot.com/2019/09/java-aes-key-generation-encryption-and.html)
+
 ### JAVA/Net
 
 A java.net practice
