@@ -10,8 +10,15 @@ package crypto;
  *
  */
 public enum CryptoConstants {
-	AES, PBKDF2WithHmacSHA256, UTF_8("UTF-8"),
-	AES_CBC_PKCS5PADDING("AES/CBC/PKCS5PADDING"), SHA_256("SHA-256"), MD5;
+	// crypto algorithms
+	AES,  AES_CBC_PKCS5PADDING("AES/CBC/PKCS5PADDING"), PBKDF2WithHmacSHA256,
+
+	// message digest hash algorithms
+	MD5, SHA_1("SHA-1"), SHA_256("SHA-256"),
+	
+	// encoding
+	UTF_8("UTF-8")
+	;
 	
 	public final String v;
 	private CryptoConstants () {

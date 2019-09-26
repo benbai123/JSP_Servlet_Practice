@@ -146,6 +146,21 @@ public class CryptoUtils {
 		return sha256Bytes;
 	}
 	/**
+	 * Get sha-1 message digest from char array
+	 * 
+	 * @param chars
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] sha1 (char[] chars) throws Exception {
+		MessageDigest digest = MessageDigest.getInstance(CryptoConstants.SHA_1.v);
+		byte[] bytes = utf8CharsToBytes(chars);
+		byte[] sha1Bytes = digest.digest(bytes);
+		// clear all local array
+		Arrays.fill(bytes, (byte) 0);
+		return sha1Bytes;
+	}
+	/**
 	 * Get md5 message digest from char array
 	 * 
 	 * @param chars char array, assumed contains valid UTF-8 chars
