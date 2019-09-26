@@ -4,13 +4,56 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 
 import crypto.CryptoConstants;
 
+/**
+ * Util methods probably used in several different
+ * crypto implementation
+ * 
+ * @author benbai123
+ *
+ */
 public class CryptoUtils {
-
+	/** SecureRandom for get random bytes */
+	private static SecureRandom _srand;
+	// use static block to get SecureRandom Instance since
+	// need to use try - catch block
+	static {
+		try {
+			_srand = SecureRandom.getInstanceStrong();
+			// just run it once
+			_srand.nextBytes(new byte[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Get random bytes
+	 * @param length
+	 * @return
+	 */
+	public static byte[] getRandomBytes (int length) {
+		byte[] bytes = new byte[length];
+		_srand.nextBytes(bytes);
+		return bytes;
+	}
+	/**
+	 * Get random Base64 Encoded chars
+	 * 
+	 * @param lengthInBytes
+	 * @return
+	 */
+	public static char[] getRandomBase64Chars (int lengthInBytes) {
+		byte[] bytes = getRandomBytes(lengthInBytes);
+		char[] b64Chars = bytesToBase64Chars(bytes);
+		// clear all local array
+		Arrays.fill(bytes, (byte) 0);
+		return b64Chars;
+	}
 	/**
 	 * Convert UTF-8 char array to byte array
 	 * 
@@ -28,7 +71,7 @@ public class CryptoUtils {
 	}
 	/**
 	 * Convert byte array to UTF-8 char array
-	 * You should confirm the bytes are all invalid UTF-8 char
+	 * You should confirm the bytes represent valid UTF-8 chars
 	 * or use bytesToBase64Chars instead
 	 * 
 	 * @param bytes
@@ -86,6 +129,35 @@ public class CryptoUtils {
 	 */
 	public static byte[] base64StringToBytes (String b64String) {
 		return Base64.getDecoder().decode(b64String);
+	}
+	/**
+	 * Get sha-256 message digest from char array
+	 * 
+	 * @param chars char array, assumed contains valid UTF-8 chars
+	 * @return the sha-256 message digest of chars
+	 * @throws Exception
+	 */
+	public static byte[] sha256 (char[] chars) throws Exception {
+		MessageDigest digest = MessageDigest.getInstance(CryptoConstants.SHA_256.v);
+		byte[] bytes = utf8CharsToBytes(chars);
+		byte[] sha256Bytes = digest.digest(bytes);
+		// clear all local array
+		Arrays.fill(bytes, (byte) 0);
+		return sha256Bytes;
+	}
+	/**
+	 * Get md5 message digest from char array
+	 * 
+	 * @param chars char array, assumed contains valid UTF-8 chars
+	 * @return the md5 message digest of chars
+	 * @throws Exception
+	 */
+	public static byte[] md5 (char[] chars) throws Exception {
+		byte[] bytes = utf8CharsToBytes(chars);
+		byte[] md5Bytes = md5(bytes);
+		// clear all local array
+		Arrays.fill(bytes, (byte) 0);
+		return md5Bytes;
 	}
 	/**
 	 * Get md5 message digest from byte array

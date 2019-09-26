@@ -1,12 +1,15 @@
 package crypto.utils;
 
 import java.nio.charset.StandardCharsets;
+import java.security.spec.KeySpec;
 import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import crypto.CryptoConstants;
@@ -18,6 +21,14 @@ import crypto.CryptoConstants;
  *
  */
 public class AESUtils {
+	/**
+	 * Generate 256-bits key
+	 * @return
+	 * @throws Exception
+	 */
+	public static char[] generateKey () throws Exception {
+		return generateKey(256);
+	}
 	/**
 	 * Get AES Key
 	 * 
@@ -38,6 +49,7 @@ public class AESUtils {
 		Arrays.fill(encodedKey, (byte) 0);
 		return base64Chars;
 	}
+	
 	/**
 	 * Encrypt with provided Cipher
 	 * 
@@ -96,5 +108,57 @@ public class AESUtils {
 		Arrays.fill(keyBytes, (byte) 0);
 		Arrays.fill(ivBytes, (byte) 0);
 		return cipher;
+	}
+	/**
+	 * Get Cipher for Encrypt/Decrypt with Key, IV and Salt specified
+	 * 
+	 * @param mode Cipher.ENCRYPT_MODE (1) or Cipher.DECRYPT_MODE (2)
+	 * @param key AES Key, can have any length here
+	 * @param ivBytes bytes for IV (initial vector), should be 16 bytes long
+	 * @param saltBytes bytes for salt, cannot be empty
+	 * @return
+	 * @throws Exception
+	 */
+	public static Cipher getCipher(int mode, char[] key, byte[] ivBytes,
+			byte[] saltBytes) throws Exception {
+		SecretKeyFactory factory = SecretKeyFactory.getInstance(CryptoConstants.PBKDF2WithHmacSHA256.v);
+		KeySpec spec = new PBEKeySpec(key, saltBytes, 65536, 256);
+		SecretKey tmp = factory.generateSecret(spec);
+		SecretKeySpec skeySpec = new SecretKeySpec(tmp.getEncoded(), CryptoConstants.AES.v);
+
+		IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
+
+		Cipher cipher = Cipher.getInstance(CryptoConstants.AES_CBC_PKCS5PADDING.v);
+		cipher.init(mode, skeySpec, ivSpec);
+		return cipher;
+	}
+	/**
+	 * Convenient method for get Cipher with Key, IV and Salt
+	 * 
+	 * @param mode Cipher.ENCRYPT_MODE (1) or Cipher.DECRYPT_MODE (2)
+	 * @param key any length of chars
+	 * @param base64EncodedIvChars chars of Base64 Encoded 16 bytes
+	 * @param base64EncodedSaltChars any length of chars
+	 * @return
+	 * @throws Exception
+	 */
+	public static Cipher getCipher(int mode, char[] key, char[] base64EncodedIvChars,
+			char[] base64EncodedSaltChars) throws Exception {
+		byte[] ivBytes = CryptoUtils.base64CharsToBytes(base64EncodedIvChars);
+		byte[] saltBytes = CryptoUtils.base64CharsToBytes(base64EncodedSaltChars);
+		Cipher cipher = getCipher(mode, key, ivBytes, saltBytes);
+		// clear local array
+		Arrays.fill(ivBytes, (byte) 0);
+		Arrays.fill(saltBytes, (byte) 0);
+		return cipher;
+	}
+	/**
+	 * Get Random IV chars
+	 * 
+	 * @return char[], the base64 encoded random 16 bytes
+	 * @throws Exception
+	 */
+	public static char[] getRandomIv () throws Exception {
+		return CryptoUtils.getRandomBase64Chars(16);
 	}
 }
