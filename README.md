@@ -35,6 +35,8 @@ Key Generation, Encryption, Decryption
 
 [JAVA AES Encryption Decryption with IV, Salt and any length of Key](https://ben-bai.blogspot.com/2019/09/java-aes-encryption-decryption-with-iv.html)
 
+[JAVA AES Encrypt Decrypt with Any Key, IV and Salt](https://ben-bai.blogspot.com/2019/09/java-aes-encrypt-decrypt-with-any-key.html)
+
 ### JAVA/Net
 
 A java.net practice
