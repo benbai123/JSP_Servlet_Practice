@@ -33,6 +33,9 @@ public class TestAESPerformance {
 			long now = System.currentTimeMillis();
 			@Override
 			public void run() throws Exception {
+				// you can even try generate key each time
+				// will still much faster than testCreateInstanceEachTimePBK
+//				_key = AESUtils.generateKey(256);
 				// get Cipher for Encrypt with key
 				Cipher encCipher = AESUtils.getCipher(Cipher.ENCRYPT_MODE, _key);
 				// encrypt data
