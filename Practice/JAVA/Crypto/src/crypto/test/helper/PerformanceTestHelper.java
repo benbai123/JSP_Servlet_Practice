@@ -20,6 +20,7 @@ public abstract class PerformanceTestHelper {
 	private long _fastest;
 	/** total time used */
 	private long _total = 0;
+	/** Over 90% execution time are faster than this */
 	private long _over90PercentFasterThan;
 	/** average time */
 	private double _average;
@@ -27,7 +28,7 @@ public abstract class PerformanceTestHelper {
 	private boolean _tested = false;
 	/** whether should do warm up run */
 	private boolean _shuldWarmUp = false;
-	/** */
+	/** List to store each execution time of run method */
 	private List<Long> _execTimes;
 	// Constructor
 	public PerformanceTestHelper (String name) {
@@ -77,10 +78,12 @@ public abstract class PerformanceTestHelper {
 		return this;
 	}
 	private void evalOver90PercentFasterThan () {
+		// too few runs, just get the slowest one
 		if (_execTimes.size() <= 10) {
 			_over90PercentFasterThan = _slowest;
 			return;
 		}
+		// otherwise, find the slowest 10%
 		List<Long> slowest10Percent = new ArrayList<Long>();
 		for (int i = 0; i < _execTimes.size(); i++) {
 			long time = _execTimes.get(i);
@@ -93,6 +96,7 @@ public abstract class PerformanceTestHelper {
 				slowest10Percent.sort(null);
 			}
 		}
+		// get the fastest one of slowest 10%
 		_over90PercentFasterThan = slowest10Percent.get(0);
 	}
 	/**
