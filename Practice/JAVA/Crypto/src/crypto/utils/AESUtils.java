@@ -1,6 +1,5 @@
 package crypto.utils;
 
-import java.nio.charset.StandardCharsets;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
@@ -59,14 +58,7 @@ public class AESUtils {
 	 * @throws Exception
 	 */
 	public static String encrypt (Cipher encCipher, String data) throws Exception {
-		// get bytes from original data
-		byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
-		// Encrypt data
-		// Cipher will reset its state each time the doFinal is called
-		// so can be reused
-		byte[] encryptedDataBytes = encCipher.doFinal( dataBytes );
-		// return Encrypted bytes as Base64 String
-		return CryptoUtils.bytesToBase64String(encryptedDataBytes);
+		return CryptoUtils.encrypt(encCipher, data);
 	}
 	/**
 	 * Decrypt with provided Cipher
@@ -77,14 +69,7 @@ public class AESUtils {
 	 * @throws Exception
 	 */
 	public static String decrypt (Cipher decCipher, String encryptedData) throws Exception {
-		// get bytes from Encrypted data
-		byte[] encryptedDataBytes = CryptoUtils.base64StringToBytes(encryptedData);
-		// Decrypt it
-		// Cipher will reset its state each time the doFinal is called
-		// so can be reused
-		byte[] dataBytes = decCipher.doFinal( encryptedDataBytes );
-		// return String Constructed from dataBytes
-		return new String(dataBytes, StandardCharsets.UTF_8);
+		return CryptoUtils.decrypt(decCipher, encryptedData);
 	}
 	/**
 	 * Get Cipher with specified Key
@@ -111,6 +96,13 @@ public class AESUtils {
 	}
 	/**
 	 * Get Cipher for Encrypt/Decrypt with Key, IV and Salt specified
+	 * 
+	 * Put PBE Key generation and Cipher creation together since
+	 * the concept here is "use key and salt to get Cipher"
+	 * so...
+	 * 
+	 * The iteration count (65536) affect the processing time,
+	 * adjust it to smaller value (e.g., 128) if needed.
 	 * 
 	 * @param mode Cipher.ENCRYPT_MODE (1) or Cipher.DECRYPT_MODE (2)
 	 * @param key AES Key, can have any length here

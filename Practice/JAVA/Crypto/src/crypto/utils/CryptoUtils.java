@@ -3,10 +3,13 @@ package crypto.utils;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
+
+import javax.crypto.Cipher;
 
 import crypto.CryptoConstants;
 
@@ -184,5 +187,42 @@ public class CryptoUtils {
 	public static byte[] md5 (byte[] bytes) throws Exception {
 		MessageDigest digest = MessageDigest.getInstance(CryptoConstants.MD5.v);
 		return digest.digest(bytes);
+	}
+	
+	/**
+	 * Encrypt with provided Cipher
+	 * 
+	 * @param encCipher
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	public static String encrypt (Cipher encCipher, String data) throws Exception {
+		// get bytes from original data
+		byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+		// Encrypt data
+		// Cipher will reset its state each time the doFinal is called
+		// so can be reused
+		byte[] encryptedDataBytes = encCipher.doFinal( dataBytes );
+		// return Encrypted bytes as Base64 String
+		return bytesToBase64String(encryptedDataBytes);
+	}
+	/**
+	 * Decrypt with provided Cipher
+	 * 
+	 * @param decCipher
+	 * @param encryptedData
+	 * @return
+	 * @throws Exception
+	 */
+	public static String decrypt (Cipher decCipher, String encryptedData) throws Exception {
+		// get bytes from Encrypted data
+		byte[] encryptedDataBytes = base64StringToBytes(encryptedData);
+		// Decrypt it
+		// Cipher will reset its state each time the doFinal is called
+		// so can be reused
+		byte[] dataBytes = decCipher.doFinal( encryptedDataBytes );
+		// return String Constructed from dataBytes
+		return new String(dataBytes, StandardCharsets.UTF_8);
 	}
 }

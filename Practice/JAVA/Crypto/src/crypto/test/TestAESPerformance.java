@@ -30,7 +30,7 @@ public class TestAESPerformance {
 
 	private static void testCreateInstanceEachTimeCommon() throws Exception {
 		new PerformanceTestHelper("testCreateInstanceEachTimeCommon") {
-			long now = System.currentTimeMillis();
+			int i = 0;
 			@Override
 			public void run() throws Exception {
 				// you can even try generate key each time
@@ -39,10 +39,10 @@ public class TestAESPerformance {
 				// get Cipher for Encrypt with key
 				Cipher encCipher = AESUtils.getCipher(Cipher.ENCRYPT_MODE, _key);
 				// encrypt data
-				String encrypted = AESUtils.encrypt(encCipher, "test"+now);
-				// print 10th char
-				System.out.print(encrypted.charAt(10));
-				now++;
+				String encrypted = AESUtils.encrypt(encCipher, "test"+i);
+				// print 5th char
+				System.out.print(encrypted.charAt(5));
+				i++;
 			}
 		}.setRuns(100)
 		.setShouldWarmUp(true)
@@ -52,7 +52,7 @@ public class TestAESPerformance {
 
 	private static void testReuseInstanceCommon() throws Exception {
 		new PerformanceTestHelper("testReuseInstanceCommon") {
-			long now = System.currentTimeMillis();
+			int i = 0;
 			Cipher encCipher = null;
 			@Override
 			public void run() throws Exception {
@@ -61,10 +61,10 @@ public class TestAESPerformance {
 					encCipher = AESUtils.getCipher(Cipher.ENCRYPT_MODE, _key);
 				}
 				// encrypt data
-				String encrypted = AESUtils.encrypt(encCipher, "test"+now);
-				// print 10th char
-				System.out.print(encrypted.charAt(10));
-				now++;
+				String encrypted = AESUtils.encrypt(encCipher, "test"+i);
+				// print 5th char
+				System.out.print(encrypted.charAt(5));
+				i++;
 			}
 			@Override
 			/**
@@ -75,8 +75,8 @@ public class TestAESPerformance {
 				Cipher c = AESUtils.getCipher(Cipher.ENCRYPT_MODE, _key);
 				// encrypt data
 				String encrypted = AESUtils.encrypt(c, "test");
-				// print 10th char
-				System.out.print(encrypted.charAt(10));
+				// print 5th char
+				System.out.print(encrypted.charAt(5));
 			}
 		}.setRuns(100)
 		.setShouldWarmUp(true)
@@ -91,17 +91,17 @@ public class TestAESPerformance {
 
 	private static void testCreateInstanceEachTimePBK() throws Exception {
 		new PerformanceTestHelper("testCreateInstanceEachTimePBK") {
-			long now = System.currentTimeMillis();
+			int i = 0;
 			@Override
 			public void run() throws Exception {
 				// get Cipher for Encrypt with Key, IV and Salt
 				Cipher encCipher = AESUtils.getCipher(Cipher.ENCRYPT_MODE, _key,
 						_iv, _salt);
 				// encrypt data
-				String encrypted = AESUtils.encrypt(encCipher, "test"+now);
-				// print 10th char
-				System.out.print(encrypted.charAt(10));
-				now++;
+				String encrypted = AESUtils.encrypt(encCipher, "test"+i);
+				// print 5th char
+				System.out.print(encrypted.charAt(5));
+				i++;
 			}
 		}.setRuns(100)
 		.setShouldWarmUp(true)
@@ -111,7 +111,7 @@ public class TestAESPerformance {
 
 	private static void testReuseInstancePBK() throws Exception {
 		new PerformanceTestHelper("testReuseInstancePBK") {
-			long now = System.currentTimeMillis();
+			int i = 0;
 			Cipher encCipher = null;
 			@Override
 			public void run() throws Exception {
@@ -121,10 +121,10 @@ public class TestAESPerformance {
 							_iv, _salt);
 				}
 				// encrypt data
-				String encrypted = AESUtils.encrypt(encCipher, "test"+now);
-				// print 10th char
-				System.out.print(encrypted.charAt(10));
-				now++;
+				String encrypted = AESUtils.encrypt(encCipher, "test"+i);
+				// print 5th char
+				System.out.print(encrypted.charAt(5));
+				i++;
 			}
 			@Override
 			/**
@@ -136,8 +136,8 @@ public class TestAESPerformance {
 						_iv, _salt);
 				// encrypt data
 				String encrypted = AESUtils.encrypt(c, "test");
-				// print 10th char
-				System.out.print(encrypted.charAt(10));
+				// print 5th char
+				System.out.print(encrypted.charAt(5));
 			}
 		}.setRuns(100)
 		.setShouldWarmUp(true)
