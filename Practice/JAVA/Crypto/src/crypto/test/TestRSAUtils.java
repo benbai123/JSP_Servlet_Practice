@@ -3,6 +3,7 @@ package crypto.test;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
 
 import javax.crypto.Cipher;
 
@@ -69,9 +70,11 @@ public class TestRSAUtils {
 		PublicKey publicKey = RSAUtils.getPublicKeyFromBase64Chars(_publicKeyChars);
 		PrivateKey privateKey = RSAUtils
 				.getPrivateKeyFromBase64Chars(_privateKeyChars);
+		Signature signSignature = RSAUtils.getSignSignature(privateKey);
+		Signature verifySignature = RSAUtils.getVerifySignature(publicKey);
 		char[] data = _src.toCharArray();
-		char[] sign = RSAUtils.sign(privateKey, data);
-		boolean verify = RSAUtils.verify(publicKey, data, sign);
+		char[] sign = RSAUtils.sign(signSignature, data);
+		boolean verify = RSAUtils.verify(verifySignature, data, sign);
 		System.out.println("### testSignVerify");
 		System.out.println("\t data "+new String(data));
 		System.out.println("\t sign "+new String(sign));

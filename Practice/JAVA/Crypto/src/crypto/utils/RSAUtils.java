@@ -92,38 +92,66 @@ public class RSAUtils {
 		return KeyFactory.getInstance(CryptoConstants.RSA.v).generatePrivate(spec);
 	}
 	/**
-	 * sign data with privateKey
+	 * Create Signature for sign with privateKey
 	 * 
 	 * @param privateKey
+	 * @return
+	 * @throws Exception
+	 */
+	public static Signature getSignSignature (PrivateKey privateKey) throws Exception {
+		Signature rsaSign = Signature.getInstance(CryptoConstants.SHA256withRSA.v);
+		rsaSign.initSign(privateKey);
+		return rsaSign;
+	}
+	/**
+	 * Create Signature for verify with publicKey
+	 * 
+	 * @param publicKey
+	 * @return
+	 * @throws Exception
+	 */
+	public static Signature getVerifySignature (PublicKey publicKey) throws Exception {
+		Signature rsaVerify = Signature.getInstance(CryptoConstants.SHA256withRSA.v);
+		rsaVerify.initVerify(publicKey);
+		return rsaVerify;
+	}
+	/**
+	 * sign data by Signature
+	 * 
+	 * @param rsaSign
 	 * @param data
 	 * @return
 	 * @throws Exception
 	 */
-	public static char[] sign (PrivateKey privateKey, char[] data) throws Exception {
-		Signature rsaSign = Signature.getInstance(CryptoConstants.SHA256withRSA.v);
-		rsaSign.initSign(privateKey);
+	public static char[] sign (Signature rsaSign, char[] data) throws Exception {
 		byte[] bytes = CryptoUtils.utf8CharsToBytes(data);
 		rsaSign.update(bytes);
 		byte[] signBytes = rsaSign.sign();
-		return CryptoUtils.bytesToBase64Chars(signBytes);
+		char[] base64SignChars = CryptoUtils.bytesToBase64Chars(signBytes);
+		// clear local array
+		Arrays.fill(bytes, (byte) 0);
+		Arrays.fill(signBytes, (byte) 0);
+		return base64SignChars;
 	}
 	/**
-	 * Verify data with publicKey and sign
+	 * Verify data with sign by Signature
 	 * 
-	 * @param publicKey
+	 * @param rsaVerify
 	 * @param data
 	 * @param sign
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean verify (PublicKey publicKey, char[] data,
+	public static boolean verify (Signature rsaVerify, char[] data,
 			char[] sign) throws Exception {
-		Signature rsaSign = Signature.getInstance(CryptoConstants.SHA256withRSA.v);
-		rsaSign.initVerify(publicKey);
 		byte[] bytes = CryptoUtils.utf8CharsToBytes(data);
 		byte[] signBytes = CryptoUtils.base64CharsToBytes(sign);
-		rsaSign.update(bytes);
-		return rsaSign.verify(signBytes);
+		rsaVerify.update(bytes);
+		boolean verify = rsaVerify.verify(signBytes);
+		// clear local array
+		Arrays.fill(bytes, (byte) 0);
+		Arrays.fill(signBytes, (byte) 0);
+		return verify;
 	}
 	/**
 	 * Get Cipher for Encryption/Decryption with PublicKey/PrivateKey

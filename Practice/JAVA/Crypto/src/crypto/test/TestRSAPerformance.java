@@ -3,6 +3,7 @@ package crypto.test;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class TestRSAPerformance {
 	
 	private static List<String> _encryptedPub = new ArrayList<String>();
 	private static List<String> _encryptedPri = new ArrayList<String>();
+	private static List<char[]> _signs = new ArrayList<char[]>();
 	
 	private static int[] _keySizes = new int[] {1024, 2048, 4096, 8192};
 	
@@ -26,13 +28,15 @@ public class TestRSAPerformance {
 		// test over each key size
 		// generate 8192 bits key will take quite a while
 		for (int keySize : _keySizes) {
+			System.out.println("\n\t test with keySize "+keySize+"\n");
 			// prepare key and encrypted data
 			KeyPair keyPair = RSAUtils.generateKey(keySize);
 			_publicKeyChars = RSAUtils.getBase64PublicKeyChars(keyPair);
 			_privateKeyChars = RSAUtils.getBase64PrivateKeyChars(keyPair);
 			prepareEncryptedPub();
 			prepareEncryptedPri();
-			
+			prepareSigns();
+
 			testCreateCipherEachTimeEncPub();
 			testReuseCipherEncPub();
 			testCreateCipherEachTimeEncPri();
@@ -42,8 +46,14 @@ public class TestRSAPerformance {
 			testReuseCipherDecPub();
 			testCreateCipherEachTimeDecPri();
 			testReuseCipherDecPri();
+			
+			testCreateSignatureEachTimeSign();
+			testReuseSignatureSign();
+			testCreateSignatureEachTimeVerify();
+			testReuseSignatureVerify();
 		}
 	}
+
 
 	/**
 	 * Encrypt by Public Key, create Cipher each time
@@ -244,7 +254,110 @@ public class TestRSAPerformance {
 		.doTest()
 		.showResult();
 	}
-	
+
+	/**
+	 * Sign, create Signature each time
+	 * 
+	 * @throws Exception
+	 */
+	private static void testCreateSignatureEachTimeSign() throws Exception {
+		new PerformanceTestHelper("testCreateSignatureEachTimeSign") {
+			PrivateKey privateKey = RSAUtils
+					.getPrivateKeyFromBase64Chars(_privateKeyChars);
+
+			int cnt = 0;
+			@Override
+			public void run() throws Exception {
+				Signature signSignature = RSAUtils.getSignSignature(privateKey);
+				char[] sign = RSAUtils.sign(signSignature, (_src+cnt).toCharArray());
+				
+				System.out.print(sign[4]+", ");
+				cnt++;
+			}
+		}.setRuns(_runs)
+		.setShouldWarmUp(true)
+		.doTest()
+		.showResult();
+	}
+
+	/**
+	 * Sign, reuse Signature
+	 * 
+	 * @throws Exception
+	 */
+	private static void testReuseSignatureSign() throws Exception {
+		new PerformanceTestHelper("testReuseSignatureSign") {
+			PrivateKey privateKey = RSAUtils
+					.getPrivateKeyFromBase64Chars(_privateKeyChars);
+			Signature signSignature = RSAUtils.getSignSignature(privateKey);
+			
+			int cnt = 0;
+			@Override
+			public void run() throws Exception {
+				char[] sign = RSAUtils.sign(signSignature, (_src+cnt).toCharArray());
+				
+				System.out.print(sign[4]+", ");
+				cnt++;
+			}
+		}.setRuns(_runs)
+		.setShouldWarmUp(true)
+		.doTest()
+		.showResult();
+	}
+
+	/**
+	 * Verify, create Signature each time
+	 * 
+	 * @throws Exception
+	 */
+	private static void testCreateSignatureEachTimeVerify() throws Exception {
+		new PerformanceTestHelper("testCreateSignatureEachTimeVerify") {
+			PublicKey publicKey = RSAUtils.getPublicKeyFromBase64Chars(_publicKeyChars);
+			
+			int cnt = 0;
+			@Override
+			public void run() throws Exception {
+				Signature verifySignature = RSAUtils.getVerifySignature(publicKey);
+				
+				char[] sign = _signs.get(cnt);
+				char[] data = (_src+cnt).toCharArray();
+				boolean verify = RSAUtils.verify(verifySignature, data, sign);
+				
+				System.out.print((verify? 1 : 0)+", ");
+				cnt++;
+			}
+		}.setRuns(_runs)
+		.setShouldWarmUp(true)
+		.doTest()
+		.showResult();
+	}
+
+	/**
+	 * Verify, reuse Signature
+	 * 
+	 * @throws Exception
+	 */
+	private static void testReuseSignatureVerify() throws Exception {
+		new PerformanceTestHelper("testReuseSignatureVerify") {
+			PublicKey publicKey = RSAUtils.getPublicKeyFromBase64Chars(_publicKeyChars);
+			Signature verifySignature = RSAUtils.getVerifySignature(publicKey);
+			
+			int cnt = 0;
+			@Override
+			public void run() throws Exception {
+				char[] sign = _signs.get(cnt);
+				char[] data = (_src+cnt).toCharArray();
+				boolean verify = RSAUtils.verify(verifySignature, data, sign);
+				
+				System.out.print((verify? 1 : 0)+", ");
+				cnt++;
+			}
+		}.setRuns(_runs)
+		.setShouldWarmUp(true)
+		.doTest()
+		.showResult();
+	}
+
 	private static void prepareEncryptedPub () throws Exception {
 		PublicKey publicKey = RSAUtils.getPublicKeyFromBase64Chars(_publicKeyChars);
 		Cipher encCipher = RSAUtils.getCipher(Cipher.ENCRYPT_MODE, publicKey);
@@ -264,6 +377,18 @@ public class TestRSAPerformance {
 		for (int i = 0; i < _runs+3; i++) {
 			String encrypted = RSAUtils.encrypt(encCipher, _src+i);
 			_encryptedPri.add(encrypted);
+		}
+	}
+
+	private static void prepareSigns() throws Exception{
+		PrivateKey privateKey = RSAUtils
+				.getPrivateKeyFromBase64Chars(_privateKeyChars);
+		Signature signSignature = RSAUtils.getSignSignature(privateKey);
+		_signs.clear();
+		// add more for warmup
+		for (int i = 0; i < _runs+3; i++) {
+			char[] sign = RSAUtils.sign(signSignature, (_src+i).toCharArray());
+			_signs.add(sign);
 		}
 	}
 }
