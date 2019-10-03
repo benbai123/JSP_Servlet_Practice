@@ -6,6 +6,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
@@ -89,6 +90,40 @@ public class RSAUtils {
 		// clear local array
 		Arrays.fill(bytes, (byte) 0);
 		return KeyFactory.getInstance(CryptoConstants.RSA.v).generatePrivate(spec);
+	}
+	/**
+	 * sign data with privateKey
+	 * 
+	 * @param privateKey
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	public static char[] sign (PrivateKey privateKey, char[] data) throws Exception {
+		Signature rsaSign = Signature.getInstance(CryptoConstants.SHA256withRSA.v);
+		rsaSign.initSign(privateKey);
+		byte[] bytes = CryptoUtils.utf8CharsToBytes(data);
+		rsaSign.update(bytes);
+		byte[] signBytes = rsaSign.sign();
+		return CryptoUtils.bytesToBase64Chars(signBytes);
+	}
+	/**
+	 * Verify data with publicKey and sign
+	 * 
+	 * @param publicKey
+	 * @param data
+	 * @param sign
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean verify (PublicKey publicKey, char[] data,
+			char[] sign) throws Exception {
+		Signature rsaSign = Signature.getInstance(CryptoConstants.SHA256withRSA.v);
+		rsaSign.initVerify(publicKey);
+		byte[] bytes = CryptoUtils.utf8CharsToBytes(data);
+		byte[] signBytes = CryptoUtils.base64CharsToBytes(sign);
+		rsaSign.update(bytes);
+		return rsaSign.verify(signBytes);
 	}
 	/**
 	 * Get Cipher for Encryption/Decryption with PublicKey/PrivateKey

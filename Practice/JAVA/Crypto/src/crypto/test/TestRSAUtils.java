@@ -16,6 +16,7 @@ public class TestRSAUtils {
 		testGenerateKeypair();
 		testEncDecPubPri();
 		testEncDecPriPub();
+		testSignVerify();
 	}
 
 	private static void testGenerateKeypair() throws Exception {
@@ -58,5 +59,22 @@ public class TestRSAUtils {
 		System.out.println("### testEncDecPriPub");
 		System.out.println("\t encrypted "+encrypted);
 		System.out.println("\t decrypted "+decrypted);
+	}
+	/**
+	 * Sign data with privateKey, verify it with publicKey, original data and sign
+	 * 
+	 * @throws Exception
+	 */
+	private static void testSignVerify () throws Exception {
+		PublicKey publicKey = RSAUtils.getPublicKeyFromBase64Chars(_publicKeyChars);
+		PrivateKey privateKey = RSAUtils
+				.getPrivateKeyFromBase64Chars(_privateKeyChars);
+		char[] data = _src.toCharArray();
+		char[] sign = RSAUtils.sign(privateKey, data);
+		boolean verify = RSAUtils.verify(publicKey, data, sign);
+		System.out.println("### testSignVerify");
+		System.out.println("\t data "+new String(data));
+		System.out.println("\t sign "+new String(sign));
+		System.out.println("\t verified "+verify);
 	}
 }

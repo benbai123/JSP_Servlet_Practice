@@ -92,6 +92,9 @@ public class CryptoUtils {
 	/**
 	 * Convert any byte array to Base64 Encoded char array
 	 * 
+	 * Do not use Base64.getEncoder().encodeToString().toCharArray()
+	 * since do not want produce a String in memory
+	 * 
 	 * @param bytes byte array contains any bytes
 	 * @return Base64 Encoded char array
 	 */

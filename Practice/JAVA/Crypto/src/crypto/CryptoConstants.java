@@ -12,7 +12,7 @@ package crypto;
 public enum CryptoConstants {
 	// crypto algorithms
 	AES,  AES_CBC_PKCS5PADDING("AES/CBC/PKCS5PADDING"), PBKDF2WithHmacSHA256,
-	RSA,
+	RSA, SHA256withRSA,
 	// message digest hash algorithms
 	MD5, SHA_1("SHA-1"), SHA_256("SHA-256"),
 	
