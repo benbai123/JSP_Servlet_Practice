@@ -43,6 +43,12 @@ Key Generation, Encryption, Decryption
 
 [JAVA RSA Sign Data and Verify](https://ben-bai.blogspot.com/2019/10/java-rsa-sign-data-and-verify.html)
 
+### JAVA/JMS
+
+Java Message Service (JMS) practice
+
+[JAVA JMS: RocketMQ Getting Started](https://ben-bai.blogspot.com/2019/10/java-jms-rocketmq-getting-started.html)
+
 ### JAVA/Net
 
 A java.net practice
