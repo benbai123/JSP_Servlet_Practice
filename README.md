@@ -49,6 +49,11 @@ Java Message Service (JMS) practice
 
 [JAVA JMS: RocketMQ Getting Started](https://ben-bai.blogspot.com/2019/10/java-jms-rocketmq-getting-started.html)
 
+Just for Testing...
+
+[Install Docker on Ubuntu 18.04
+](https://ben-bai.blogspot.com/2019/10/motivation-i-want-to-try-rocketmq.html)
+
 ### JAVA/Net
 
 A java.net practice
