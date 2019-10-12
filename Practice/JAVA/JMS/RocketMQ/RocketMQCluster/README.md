@@ -17,6 +17,8 @@ Build an Image as below (in terminal)
 
 where `-t rmqi` denotes the image name is rmqi
 
+the last `.` is the path to Dockerfile (current folder)
+
 ### Run a Docker Container with the built image
 
 You can run a Container with the built image as below
