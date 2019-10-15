@@ -49,6 +49,8 @@ Java Message Service (JMS) practice
 
 [JAVA JMS: RocketMQ Getting Started](https://ben-bai.blogspot.com/2019/10/java-jms-rocketmq-getting-started.html)
 
+[JAVA JMS: RocketMQ NameServer Broker Cluster](https://ben-bai.blogspot.com/2019/10/java-jms-rocketmq-nameserver-broker.html)
+
 * Just for Testing...
   * [Install Docker on Ubuntu 18.04](https://ben-bai.blogspot.com/2019/10/motivation-i-want-to-try-rocketmq.html)
   * [Connect to VirtualBox Guest Machine from Host OS with NAT Port Forwarding](https://ben-bai.blogspot.com/2019/10/connect-to-virtualbox-guest-machine.html)
