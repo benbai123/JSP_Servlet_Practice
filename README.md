@@ -72,6 +72,12 @@ Reference
 
 [Wrap Lucene classes to do search easily.](http://ben-bai.blogspot.com/2012/03/wrap-lucene-classes-to-do-search-easily.html)
 
+### JAVAX/Tools
+
+Test tools in javax.tools
+
+[JAVA Dynamic Compile Class From Text](https://ben-bai.blogspot.com/2019/10/java-dynamic-compile-class-from-text.html)
+
 ### JSPChat
 
 A simple web based chat room, really simple, contains only:
