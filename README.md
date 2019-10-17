@@ -17,6 +17,12 @@ Reference:
 
 [Basic Servlet Practice: Dynamic add servlet programmatically.](http://ben-bai.blogspot.com/2012/03/basic-servlet-practice-dynamic-add.html)
 
+### JAVA/Automation
+
+Browser Automation, etc
+
+[JAVA Selenium Browser Automation Getting Started](https://ben-bai.blogspot.com/2019/10/java-selenium-browser-automation.html)
+
 ### JAVA/Concurrent
 
 Basic Thread, ExecutorService, etc
