@@ -1,6 +1,13 @@
 package basic.thread.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import basic.thread.wrapper.DebounceRunnable;
+import basic.thread.wrapper.ThrottleRunnable;
+
 public class ThreadUtils {
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	/** Make a runnable become debounce
 	 * 
 	 * usage: to reduce the real processing for some task
@@ -13,44 +20,18 @@ public class ThreadUtils {
 	 * @return
 	 */
 	public static Runnable debounce (Runnable realRunner, long delay) {
-		Runnable debounceRunner = new Runnable() {
-			// whether is waiting to run
-			private boolean _isWaiting = false;
-			// target time to run realRunner
-			private long _timeToRun;
-			// specified delay time to wait
-			private long _delay = delay;
-			// Runnable that has the real task to run
-			private Runnable _realRunner = realRunner;
-			@Override
-			public void run() {
-				// current time
-				long now;
-				synchronized (this) {
-					now = System.currentTimeMillis();
-					// update time to run each time
-					_timeToRun = now+_delay;
-					// another thread is waiting, skip
-					if (_isWaiting) return;
-					// set waiting status
-					_isWaiting = true;
-				}
-				try {
-					// wait until target time
-					while (now < _timeToRun) {
-						Thread.sleep(_timeToRun-now);
-						now = System.currentTimeMillis();
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-					// clear waiting status before run
-					_isWaiting = false;
-					// do the real task
-					_realRunner.run();
-				}
-			}};
-		return debounceRunner;
+		return DebounceRunnable.wrap(realRunner, delay);
+	}
+	/**
+	 * pass true to immediate to prevent a runnable called multiple times
+	 * 
+	 * @param realRunner
+	 * @param delay
+	 * @param immediate
+	 * @return
+	 */
+	public static Runnable debounce (Runnable realRunner, long delay, boolean immediate) {
+		return DebounceRunnable.wrap(realRunner, delay, immediate);
 	}
 	/** Make a runnable become throttle
 	 * 
@@ -64,42 +45,10 @@ public class ThreadUtils {
 	 * @return
 	 */
 	public static Runnable throttle (Runnable realRunner, long delay) {
-		Runnable throttleRunner = new Runnable() {
-			// whether is waiting to run
-			private boolean _isWaiting = false;
-			// target time to run realRunner
-			private long _timeToRun;
-			// specified delay time to wait
-			private long _delay = delay;
-			// Runnable that has the real task to run
-			private Runnable _realRunner = realRunner;
-			@Override
-			public void run() {
-				// current time
-				long now;
-				synchronized (this) {
-					// another thread is waiting, skip
-					if (_isWaiting) return;
-					now = System.currentTimeMillis();
-					// update time to run
-					// do not update it each time since
-					// you do not want to postpone it unlimited
-					_timeToRun = now+_delay;
-					// set waiting status
-					_isWaiting = true;
-				}
-				try {
-					Thread.sleep(_timeToRun-now);
-					
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-					// clear waiting status before run
-					_isWaiting = false;
-					// do the real task
-					_realRunner.run();
-				}
-			}};
-		return throttleRunner;
+		return ThrottleRunnable.wrap(realRunner, delay);
+	}
+
+	public static String getTime() {
+		return sdf.format(new Date());
 	}
 }
