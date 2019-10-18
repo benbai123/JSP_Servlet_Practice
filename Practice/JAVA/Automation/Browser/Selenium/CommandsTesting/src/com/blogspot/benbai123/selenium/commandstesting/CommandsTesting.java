@@ -11,7 +11,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class CommandsTesting {
 	private static WebDriver _driver;
-	private static String _testingPage = "file:///D:/things/benbai123/git/benbai123.github.io/TestPages/Automation/Selenium/CommandsTesting.html";
+	private static String _testingPage = "http://benbai123.github.io/TestPages/Automation/Selenium/CommandsTesting.html";
 	public static void main (String[] args) {
 		createWebDriver();
 		goToPage();
