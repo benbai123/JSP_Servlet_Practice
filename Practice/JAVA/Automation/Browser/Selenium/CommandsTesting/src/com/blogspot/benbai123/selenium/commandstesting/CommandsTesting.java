@@ -1,5 +1,7 @@
 package com.blogspot.benbai123.selenium.commandstesting;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -10,30 +12,38 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+/**
+ * Test Selenium Commands
+ * 
+ * @author benbai123
+ *
+ */
 public class CommandsTesting {
+	/** Selenium Web Driver */
 	private static WebDriver _driver;
+	/** JavaScript Executor (Convert from _driver) */
+	private static JavascriptExecutor _js;
+	
 	private static String _testingPage = "http://benbai123.github.io/TestPages/Automation/Selenium/CommandsTesting.html";
 	private static long _delayForHumanEyes = 500L;
 	public static void main (String[] args) {
-		createWebDriver();
+		init();
 		try {
 			goToPage();
 			
 			testElementsSelection();
 			testInput();
-			testRadio();
-			testCheckbox();
 			testSelect();
 		} finally {
 			done();
 		}
 	}
 
-	private static void createWebDriver() {
+	private static void init() {
 		// set up ChromeDriver
 		WebDriverManager wdm = ChromeDriverManager.getInstance(ChromeDriver.class);
 		/* specify the version
-		 * in fact it will still download correct version even
+		1 * in fact it will still download correct version even
 		 * remove this line. Awesome!
 		 */
 		wdm.version("77.0.3865.40");
@@ -41,12 +51,16 @@ public class CommandsTesting {
 		
 		// create Selenium ChromeDriver
 		_driver = new ChromeDriver();
+		_js = ((JavascriptExecutor)_driver);
 	}
 
 	private static void goToPage() {
 		_driver.get(_testingPage);
 	}
 
+	/**
+	 *  Test select element(s)
+	 */
 	private static void testElementsSelection() {
 		// locate to testing block first
 		WebElement testingBlock = _driver.findElement(By.className("elements-selection"));
@@ -179,21 +193,70 @@ public class CommandsTesting {
 		found = _driver.findElement(By.xpath("/html/body/div/a[contains(text(), 'ithub fo')]"));
 		changeTextContent(found, "github found 4");
 		waitForEyes();
+		
+		/*
+		 * Test select multiple
+		 * the 3 input after inp4Multiple should be
+		 * cnanged to "multiple found" then "multiple found 2"
+		 */
+		// test select multiple elements
+		found = testingBlock.findElement(By.className("testMultiple"));
+		// mark testing areas for eyes
+		switchTestingAreas(testingBlock, found);
+		List<WebElement> eles = testingBlock.findElements(By.className("inp4Multiple"));
+		for (WebElement ele : eles) {
+			ele.sendKeys("multiple found");
+		}
+		waitForEyes();
+		
+		// test select multiple elements by javascript
+		eles = (List<WebElement>)_js.executeScript("return document.querySelectorAll('.inp4Multiple')");
+		for (WebElement ele : eles) {
+			ele.sendKeys(Keys.chord(Keys.CONTROL, "a"), "multiple found 2");
+		}
+		waitForEyes();
 	}
 
+	/**
+	 * Try interact with input elements
+	 */
 	private static void testInput() {
-		// TODO Auto-generated method stub
+		// locate to testing block first
+		WebElement testingBlock = _driver.findElement(By.className("input-elements"));
+		// text input
+		WebElement input = testingBlock.findElement(By.className("text-input"));
+		// mark testing areas for eyes
+		switchTestingAreas(testingBlock, input);
+		// input some text
+		input.sendKeys("some text");
+		waitForEyes();
+		// select all then delete
+		input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		input.sendKeys(Keys.DELETE);
+		waitForEyes();
 		
-	}
-
-	private static void testRadio() {
-		// TODO Auto-generated method stub
+		// readonly
+		input = testingBlock.findElement(By.className("readonly-text-input"));
+		// mark testing areas for eyes
+		switchTestingAreas(testingBlock, input);
+		// input some text, no effect
+		input.sendKeys("some text 2");
+		waitForEyes();
 		
-	}
-
-	private static void testCheckbox() {
-		// TODO Auto-generated method stub
+		try {
+			// disabled
+			input = testingBlock.findElement(By.className("disabled-text-input"));
+			// mark testing areas for eyes
+			switchTestingAreas(testingBlock, input);
+			// input some text, will throw Exception
+			input.sendKeys("some text 3");
+			waitForEyes();
+		} catch (Exception e) {
+			System.out.println("Exception when send keys to disabled input\n\t"
+					+e.getMessage());
+		}
 		
+		// TODO checkbox radio number range color date
 	}
 
 	private static void testSelect() {
@@ -215,14 +278,12 @@ public class CommandsTesting {
 	}
 
 	private static void changeTextContent (WebElement ele, String text) {
-		((JavascriptExecutor)_driver).
-			executeScript("arguments[0].textContent = '"+text+"';", ele);
+		_js.executeScript("arguments[0].textContent = '"+text+"';", ele);
 	}
 
 	private static void markTestingAreas (WebElement... eles) {
 		for (WebElement e : eles) {
-			((JavascriptExecutor)_driver).
-				executeScript("markTestingArea(arguments[0])", e);
+			_js.executeScript("markTestingArea(arguments[0])", e);
 		}
 	}
 	
@@ -232,6 +293,6 @@ public class CommandsTesting {
 	}
 
 	private static void unmarkAllTestingAreas () {
-		((JavascriptExecutor)_driver).executeScript("unmarkAllTestingAreas();");
+		_js.executeScript("unmarkAllTestingAreas();");
 	}
 }
