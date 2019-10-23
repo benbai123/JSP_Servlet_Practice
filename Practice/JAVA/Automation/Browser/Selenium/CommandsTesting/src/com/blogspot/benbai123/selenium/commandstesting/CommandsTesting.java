@@ -118,7 +118,6 @@ public class CommandsTesting {
 		 */
 		// by name
 		found = testingBlock.findElement(By.name("inpThree"));
-		// mark testing areas for eyes
 		switchTestingAreas(testingBlock, found);
 		found.sendKeys("found");
 		waitForEyes();
@@ -141,7 +140,6 @@ public class CommandsTesting {
 		 */
 		// by tagName
 		found = testingBlock.findElement(By.tagName("textarea"));
-		// mark testing areas for eyes
 		switchTestingAreas(testingBlock, found);
 		found.sendKeys("found");
 		waitForEyes();
@@ -201,7 +199,6 @@ public class CommandsTesting {
 		 */
 		// test select multiple elements
 		found = testingBlock.findElement(By.className("testMultiple"));
-		// mark testing areas for eyes
 		switchTestingAreas(testingBlock, found);
 		List<WebElement> eles = testingBlock.findElements(By.className("inp4Multiple"));
 		for (WebElement ele : eles) {
@@ -225,19 +222,24 @@ public class CommandsTesting {
 		WebElement testingBlock = _driver.findElement(By.className("input-elements"));
 		// text input
 		WebElement input = testingBlock.findElement(By.className("text-input"));
-		// mark testing areas for eyes
 		switchTestingAreas(testingBlock, input);
-		// input some text
-		input.sendKeys("some text");
-		waitForEyes();
+		
+		// get initial value
+		String text = input.getAttribute("value");
+		System.out.println("initial value "+text);
 		// select all then delete
 		input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
 		input.sendKeys(Keys.DELETE);
 		waitForEyes();
+		// input some text
+		input.sendKeys("some text");
+		waitForEyes();
+		// get updated value
+		text = input.getAttribute("value");
+		System.out.println("updated value "+text);
 		
 		// readonly
 		input = testingBlock.findElement(By.className("readonly-text-input"));
-		// mark testing areas for eyes
 		switchTestingAreas(testingBlock, input);
 		// input some text, no effect
 		input.sendKeys("some text 2");
@@ -246,7 +248,6 @@ public class CommandsTesting {
 		try {
 			// disabled
 			input = testingBlock.findElement(By.className("disabled-text-input"));
-			// mark testing areas for eyes
 			switchTestingAreas(testingBlock, input);
 			// input some text, will throw Exception
 			input.sendKeys("some text 3");
@@ -256,7 +257,43 @@ public class CommandsTesting {
 					+e.getMessage());
 		}
 		
+		// checkbox
+		input = testingBlock.findElement(By.className("test-checkbox"));
+		WebElement label = (WebElement)_js.executeScript("return arguments[0].parentNode;", input);
+		switchTestingAreas(testingBlock, label);
+		text = label.getText();
+		System.out.println("Label text of test-checkbox: "+text);
+		// check it
+		input.click();
+		// get checked status
+		System.out.println("test-checkbox checked: "+input.isSelected());
+		// uncheck
+		input.click();
+		System.out.println("test-checkbox checked: "+input.isSelected());
+		waitForEyes();
+		
+		// radio
+		// select female
+		testingBlock.findElement(By.cssSelector("[type='radio'][name='gender'][value='female']")).click();
+		waitForEyes();
+		// select male
+		testingBlock.findElement(By.cssSelector("[type='radio'][name='gender'][value='male']")).click();
+		waitForEyes();
+		// get selected value
+		input = findElementIfAny(testingBlock, By.cssSelector("[type='radio'][name='gender']:checked"));
+		if (input != null) {
+			System.out.println("Selected gender: "+input.getAttribute("value"));
+		}
+		// get selected value
+		waitForEyes();
 		// TODO checkbox radio number range color date
+	}
+
+	private static WebElement findElementIfAny(WebElement from, By by) {
+		List<WebElement> eles = from.findElements(by);
+		if (!eles.isEmpty())
+			return eles.get(0);
+		return null;
 	}
 
 	private static void testSelect() {
