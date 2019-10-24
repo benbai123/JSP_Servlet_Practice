@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -273,20 +274,70 @@ public class CommandsTesting {
 		waitForEyes();
 		
 		// radio
+		switchTestingAreas(testingBlock, testingBlock.findElement(By.className("test-radios")));
 		// select female
 		testingBlock.findElement(By.cssSelector("[type='radio'][name='gender'][value='female']")).click();
 		waitForEyes();
 		// select male
 		testingBlock.findElement(By.cssSelector("[type='radio'][name='gender'][value='male']")).click();
-		waitForEyes();
+		waitForEyes(2000);
 		// get selected value
 		input = findElementIfAny(testingBlock, By.cssSelector("[type='radio'][name='gender']:checked"));
 		if (input != null) {
 			System.out.println("Selected gender: "+input.getAttribute("value"));
+			// deselect it
+			_js.executeScript("arguments[0].checked = false;", input);
+			waitForEyes(2000);
 		}
-		// get selected value
+
+		// number, 0~100 step 0.2
+		input = testingBlock.findElement(By.className("test-number-input"));
+		switchTestingAreas(testingBlock, input);
+		// try to input some wrong value, should see some notification in browser
+		input.sendKeys("0.3");
+		_js.executeScript("arguments[0].blur();", input);
+		waitForEyes(5000);
+		// inc
+		input.sendKeys(Keys.ARROW_UP);
+		input.sendKeys(Keys.ARROW_UP);
+		input.sendKeys(Keys.ARROW_UP);
 		waitForEyes();
-		// TODO checkbox radio number range color date
+		
+		input.sendKeys(Keys.chord(Keys.CONTROL, "a"), "200");
+		_js.executeScript("arguments[0].blur();", input);
+		waitForEyes(5000);
+		// dec
+		input.sendKeys(Keys.ARROW_DOWN);
+		input.sendKeys(Keys.ARROW_DOWN);
+		input.sendKeys(Keys.ARROW_DOWN);
+		waitForEyes();
+		
+		// range, 0~100 step 0.2
+		input = testingBlock.findElement(By.className("test-range-input"));
+		switchTestingAreas(testingBlock, input);
+		// click at specific position
+		clickAt(input, 30, 5);
+		waitForEyes();
+
+		// inc
+		input.sendKeys(Keys.ARROW_UP);
+		input.sendKeys(Keys.ARROW_UP);
+		input.sendKeys(Keys.ARROW_UP);
+		waitForEyes();
+
+		// dec
+		input.sendKeys(Keys.ARROW_DOWN);
+		input.sendKeys(Keys.ARROW_DOWN);
+		input.sendKeys(Keys.ARROW_DOWN);
+		waitForEyes();
+		
+		// color input
+		input = testingBlock.findElement(By.className("test-color-input"));
+		switchTestingAreas(testingBlock, input);
+		// change color
+		_js.executeScript("arguments[0].value = '#8347AE'", input);
+		waitForEyes();
+		// TODO date
 	}
 
 	private static WebElement findElementIfAny(WebElement from, By by) {
@@ -294,6 +345,11 @@ public class CommandsTesting {
 		if (!eles.isEmpty())
 			return eles.get(0);
 		return null;
+	}
+	
+	private static void clickAt (WebElement ele, int posX, int posY) {
+		Actions act = new Actions(_driver);
+		act.moveToElement(ele).moveByOffset(posX, posY).click().perform();
 	}
 
 	private static void testSelect() {
@@ -306,8 +362,11 @@ public class CommandsTesting {
 	}
 
 	private static void waitForEyes() {
+		waitForEyes(_delayForHumanEyes);
+	}
+	private static void waitForEyes(long delay) {
 		try {
-			Thread.sleep(_delayForHumanEyes);
+			Thread.sleep(delay);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -319,9 +378,15 @@ public class CommandsTesting {
 	}
 
 	private static void markTestingAreas (WebElement... eles) {
+		// mark by red border and scroll to most low/right element
+		int posX = 0;
+		int posY = 0;
 		for (WebElement e : eles) {
+			posX = Math.max(posX, e.getLocation().getX());
+			posY = Math.max(posX, e.getLocation().getY());
 			_js.executeScript("markTestingArea(arguments[0])", e);
 		}
+		_js.executeScript("window.scrollBy(" +posX +", " +(posY-100) +")");
 	}
 	
 	private static void switchTestingAreas (WebElement... eles) {
