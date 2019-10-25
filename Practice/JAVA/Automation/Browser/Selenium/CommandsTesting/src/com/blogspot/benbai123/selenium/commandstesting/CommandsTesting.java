@@ -1,5 +1,8 @@
 package com.blogspot.benbai123.selenium.commandstesting;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +18,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
  * Test Selenium Commands
+ * 
+ * testing page and JavaScript file
+ *   http://benbai123.github.io/TestPages/Automation/Selenium/CommandsTesting.html
+ *   http://benbai123.github.io/TestPages/Automation/Selenium/js/commands_testing.js
  * 
  * @author benbai123
  *
@@ -62,6 +69,7 @@ public class CommandsTesting {
 	/**
 	 *  Test select element(s)
 	 */
+	@SuppressWarnings("unchecked")
 	private static void testElementsSelection() {
 		// locate to testing block first
 		WebElement testingBlock = _driver.findElement(By.className("elements-selection"));
@@ -337,19 +345,32 @@ public class CommandsTesting {
 		// change color
 		_js.executeScript("arguments[0].value = '#8347AE'", input);
 		waitForEyes();
-		// TODO date
-	}
-
-	private static WebElement findElementIfAny(WebElement from, By by) {
-		List<WebElement> eles = from.findElements(by);
-		if (!eles.isEmpty())
-			return eles.get(0);
-		return null;
-	}
-	
-	private static void clickAt (WebElement ele, int posX, int posY) {
-		Actions act = new Actions(_driver);
-		act.moveToElement(ele).moveByOffset(posX, posY).click().perform();
+		
+		// date, 2019-01-06~2019-12-29, step 7 days, default 2019-10-27
+		input = testingBlock.findElement(By.className("test-date-input"));
+		switchTestingAreas(testingBlock, input);
+		// get default date
+		try {
+			Date defaultDate = new SimpleDateFormat("yyyy-MM-dd").parse(
+					(String)_js.executeScript("return arguments[0].value;", input) );
+			System.out.println(defaultDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// change value to 2019-01-06, use JavaScript to set value directly
+		// to avoid the gap between different browser
+		_js.executeScript("arguments[0].value = '2019-01-05';", input);
+		_js.executeScript("arguments[0].onchange();", input);
+		waitForEyes(3000);
+		// increase date by js (see commands_testing.js)
+		_js.executeScript("addDays(arguments[0], 1);", input);
+		waitForEyes(3000);
+		// inc
+		_js.executeScript("addDays(arguments[0], 1);", input);
+		waitForEyes(3000);
+		// dec 2 days
+		_js.executeScript("addDays(arguments[0], -2);", input);
+		waitForEyes(3000);
 	}
 
 	private static void testSelect() {
@@ -368,7 +389,6 @@ public class CommandsTesting {
 		try {
 			Thread.sleep(delay);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -397,4 +417,17 @@ public class CommandsTesting {
 	private static void unmarkAllTestingAreas () {
 		_js.executeScript("unmarkAllTestingAreas();");
 	}
+
+	private static WebElement findElementIfAny(WebElement from, By by) {
+		List<WebElement> eles = from.findElements(by);
+		if (!eles.isEmpty())
+			return eles.get(0);
+		return null;
+	}
+	
+	private static void clickAt (WebElement ele, int posX, int posY) {
+		Actions act = new Actions(_driver);
+		act.moveToElement(ele).moveByOffset(posX, posY).click().perform();
+	}
+
 }
