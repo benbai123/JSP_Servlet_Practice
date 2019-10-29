@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -37,11 +38,12 @@ public class CommandsTesting {
 	public static void main (String[] args) {
 		init();
 		try {
-			goToPage();
+			goToTestPage();
 			
 			testElementsSelection();
 			testInput();
 			testSelect();
+			testIFrames();
 		} finally {
 			done();
 		}
@@ -62,7 +64,7 @@ public class CommandsTesting {
 		_js = ((JavascriptExecutor)_driver);
 	}
 
-	private static void goToPage() {
+	private static void goToTestPage() {
 		_driver.get(_testingPage);
 	}
 
@@ -202,7 +204,7 @@ public class CommandsTesting {
 		waitForEyes();
 		
 		/*
-		 * Test select multiple
+		 * Test select multiple elements
 		 * the 3 input after inp4Multiple should be
 		 * cnanged to "multiple found" then "multiple found 2"
 		 */
@@ -374,6 +376,85 @@ public class CommandsTesting {
 	}
 
 	private static void testSelect() {
+		// locate to testing block first
+		WebElement testingBlock = _driver.findElement(By.className("select-option"));
+		// get single select element
+		WebElement select = testingBlock.findElement(By.className("test-single-select"));
+		switchTestingAreas(testingBlock, select);
+		
+		/*
+		 * select another option by click, Selenium not work well this way,
+		 * the select will not be closed and the
+		 * selected option will not get focus
+		 */
+		select.click();
+		select.findElement(By.cssSelector("option[value='sleep']")).click();
+		// click again to close dropdown
+		select.click();
+		waitForEyes(2000);
+
+		// select by key control, works better
+		select.click();
+		select.sendKeys(Keys.UP);
+		waitForEyes();
+		select.sendKeys(Keys.ENTER);
+		waitForEyes(2000);
+		
+		// deselect by JS
+		_js.executeScript("arguments[0].selectedIndex = -1;", select);
+		waitForEyes(2000);
+		
+		// get test-multiple-select
+		select = testingBlock.findElement(By.className("test-multiple-select"));
+		switchTestingAreas(testingBlock, select);
+		// select cheese
+		select.findElement(By.cssSelector("option[value='cheese']")).click();
+		waitForEyes();
+		// control-select ham
+		Actions act = new Actions(_driver);
+		act.keyDown(Keys.CONTROL).build().perform();
+		select.findElement(By.cssSelector("option[value='ham']")).click();
+		act.keyUp(Keys.CONTROL).build().perform();
+		waitForEyes();
+
+		/* shift-select egg and beef
+		 * not works, see the issue below
+		 *   https://github.com/mozilla/geckodriver/issues/645
+		 */
+		act = new Actions(_driver);
+		act.keyDown(Keys.SHIFT).build().perform();
+		select.findElement(By.cssSelector("option[value='beef']")).click();
+		act.keyUp(Keys.SHIFT).build().perform();
+
+		waitForEyes(2000);
+		
+		/*
+		 * simulate shift (range) select
+		 * but will not trigger event
+		 */
+		// clear all first
+		_js.executeScript("arguments[0].querySelectorAll('option:checked').forEach(e => e.selected = false);", select);
+		waitForEyes();
+		WebElement ham = select.findElement(By.cssSelector("option[value='ham']"));
+		WebElement beef = select.findElement(By.cssSelector("option[value='beef']"));
+		// select ham
+		ham.click();
+		waitForEyes();
+		// range select to beef
+		rangeSelect(ham, beef);
+		waitForEyes();
+		
+		// deselect tomato to cheese
+		WebElement tomato = select.findElement(By.cssSelector("option[value='tomato']"));
+		WebElement cheese = select.findElement(By.cssSelector("option[value='cheese']"));
+		tomato.click();
+		waitForEyes();
+		rangeSelect(tomato, cheese);
+		waitForEyes();
+		
+	}
+
+	private static void testIFrames() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -430,4 +511,34 @@ public class CommandsTesting {
 		act.moveToElement(ele).moveByOffset(posX, posY).click().perform();
 	}
 
+	/**
+	 * Simulate range-select of multiple select
+	 * 
+	 * @param start
+	 * @param end
+	 */
+	private static void rangeSelect(WebElement start, WebElement end) {
+		WebElement selectElement = (WebElement)_js.executeScript("return arguments[0].parentNode;", start);
+		boolean isSelected = start.isSelected();
+		List<WebElement> options = new Select(selectElement).getOptions();
+		int sidx = -1, eidx = -1;
+		for (int i = 0; i < options.size(); i++) {
+			String value = options.get(i).getAttribute("value");
+			if (value.equals(start.getAttribute("value"))
+					|| value.equals(end.getAttribute("value"))) {
+				if (sidx == -1)
+					sidx = i;
+				else {
+					eidx = i;
+					break;
+				}
+			}
+		}
+		String script = "arguments[0].querySelectorAll('option')"
+				+ ".forEach(" // for each option
+				+ 	"(e, i) => {" // e: element, i: index
+				+ 	" if (i >= "+sidx+" && i <= "+eidx+")" // in the range
+				+		" e.selected = "+isSelected+"});"; // update selected status
+		_js.executeScript(script, selectElement);
+	}
 }
