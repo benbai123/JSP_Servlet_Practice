@@ -3,7 +3,9 @@ package com.blogspot.benbai123.selenium.commandstesting;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -44,6 +46,7 @@ public class CommandsTesting {
 			testInput();
 			testSelect();
 			testIFrames();
+			testNewBrowserWindows();
 		} finally {
 			done();
 		}
@@ -375,6 +378,9 @@ public class CommandsTesting {
 		waitForEyes(3000);
 	}
 
+	/**
+	 * test select/option
+	 */
 	private static void testSelect() {
 		// locate to testing block first
 		WebElement testingBlock = _driver.findElement(By.className("select-option"));
@@ -453,10 +459,91 @@ public class CommandsTesting {
 		waitForEyes();
 		
 	}
-
+	/**
+	 * test move to iframe and back
+	 */
 	private static void testIFrames() {
-		// TODO Auto-generated method stub
+		// move to iframe001
+		_driver.switchTo().frame("iframe001");
+		String content = _driver.findElement(By.className("iframe-content")).getText();
+		System.out.println(content);
+
+		// move to iframe002 inside iframe001
+		_driver.switchTo().frame("iframe002");
+		content = _driver.findElement(By.className("iframe-content")).getText();
+		System.out.println(content);
+
+		// back to default window
+		_driver.switchTo().defaultContent();
+		// move to iframe003
+		_driver.switchTo().frame("iframe003");
+		content = _driver.findElement(By.className("iframe-content")).getText();
+		System.out.println(content);
 		
+		// back to default window
+		_driver.switchTo().defaultContent();
+	}
+
+	/**
+	 * test move to child window(s) and back	 * 
+	 * longer method name since I cannot call it "testWindows"...
+	 * 
+	 * ref: https://stackoverflow.com/questions/12729265/switch-tabs-using-selenium-webdriver-with-java
+	 */
+	private static void testNewBrowserWindows() {
+		// locate to testing block first
+		WebElement testingBlock = _driver.findElement(By.className("child-windows"));
+		WebElement testElem = testingBlock.findElement(By.tagName("a"));
+		switchTestingAreas(testingBlock, testElem);
+		
+		/*
+		 * keep tracking each window handle,
+		 * WebDriver.getWindowHandles returns a Set of handles
+		 * the order of handles probably not guaranteed
+		 */
+		Map<String, String> winHandles = new HashMap<String, String>();
+		// track original window
+		addWindowHandle("origin", winHandles);
+		
+		// open window_001
+		testElem.click();
+		// track the opened window
+		addWindowHandle("win001", winHandles);
+		// switch to win001
+		_driver.switchTo().window(winHandles.get("win001"));
+		System.out.println(_driver.findElement(By.className("window-content")).getText());
+		waitForEyes();
+		
+		// back to original window
+		_driver.switchTo().window(winHandles.get("origin"));
+		// test window_002
+		testElem = testingBlock.findElement(By.className("newwin-002"));
+		switchTestingAreas(testingBlock, testElem);
+		testElem.click();
+		addWindowHandle("win002", winHandles);
+		_driver.switchTo().window(winHandles.get("win002"));
+		System.out.println(_driver.findElement(By.className("window-content")).getText());
+		waitForEyes();
+
+		_driver.switchTo().window(winHandles.get("origin"));
+		// test window_003
+		testElem = testingBlock.findElement(By.className("newwin-003"));
+		switchTestingAreas(testingBlock, testElem);
+		testElem.click();
+		addWindowHandle("win003", winHandles);
+		_driver.switchTo().window(winHandles.get("win003"));
+		System.out.println(_driver.findElement(By.className("window-content")).getText());
+		waitForEyes();
+		
+		// close win001~win003
+		_driver.switchTo().window(winHandles.get("win001")).close();
+		waitForEyes();
+		_driver.switchTo().window(winHandles.get("win002")).close();
+		waitForEyes();
+		_driver.switchTo().window(winHandles.get("win003")).close();
+		waitForEyes();
+		// back to origin
+		_driver.switchTo().window(winHandles.get("origin"));
 	}
 
 	private static void done() {
@@ -514,6 +601,8 @@ public class CommandsTesting {
 	/**
 	 * Simulate range-select of multiple select
 	 * 
+	 * start and end should be 2 different elements
+	 * 
 	 * @param start
 	 * @param end
 	 */
@@ -540,5 +629,20 @@ public class CommandsTesting {
 				+ 	" if (i >= "+sidx+" && i <= "+eidx+")" // in the range
 				+		" e.selected = "+isSelected+"});"; // update selected status
 		_js.executeScript(script, selectElement);
+	}
+	/**
+	 * get the window handle that not being tracked,
+	 * then put it into tracking map with key
+	 * 
+	 * @param key
+	 * @param winHandles
+	 */
+	private static void addWindowHandle(String key, Map<String, String> winHandles) {
+		for (String handle : _driver.getWindowHandles()) {
+			if (!winHandles.containsValue(handle)) {
+				winHandles.put(key, handle);
+				break;
+			}
+		}
 	}
 }
