@@ -571,7 +571,7 @@ public class CommandsTesting {
 		int posY = 0;
 		for (WebElement e : eles) {
 			posX = Math.max(posX, e.getLocation().getX());
-			posY = Math.max(posX, e.getLocation().getY());
+			posY = Math.max(posY, e.getLocation().getY());
 			_js.executeScript("markTestingArea(arguments[0])", e);
 		}
 		_js.executeScript("window.scrollBy(" +posX +", " +(posY-100) +")");
