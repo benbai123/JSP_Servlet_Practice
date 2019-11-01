@@ -47,6 +47,9 @@ public class CommandsTesting {
 			testSelect();
 			testIFrames();
 			testNewBrowserWindows();
+			testBrowserHistory();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			done();
 		}
@@ -461,24 +464,31 @@ public class CommandsTesting {
 	}
 	/**
 	 * test move to iframe and back
+	 * @throws Exception 
 	 */
-	private static void testIFrames() {
+	private static void testIFrames() throws Exception {
 		// move to iframe001
 		_driver.switchTo().frame("iframe001");
 		String content = _driver.findElement(By.className("iframe-content")).getText();
+		String expected = "content in iframe 001";
 		System.out.println(content);
+		assertTrue(expected.equals(content), "content should be "+expected);
 
 		// move to iframe002 inside iframe001
 		_driver.switchTo().frame("iframe002");
 		content = _driver.findElement(By.className("iframe-content")).getText();
+		expected = "content in iframe 002";
 		System.out.println(content);
+		assertTrue(expected.equals(content), "content should be "+expected);
 
 		// back to default window
 		_driver.switchTo().defaultContent();
 		// move to iframe003
 		_driver.switchTo().frame("iframe003");
 		content = _driver.findElement(By.className("iframe-content")).getText();
+		expected = "content in iframe 003";
 		System.out.println(content);
+		assertTrue(expected.equals(content), "content should be "+expected);
 		
 		// back to default window
 		_driver.switchTo().defaultContent();
@@ -489,8 +499,9 @@ public class CommandsTesting {
 	 * longer method name since I cannot call it "testWindows"...
 	 * 
 	 * ref: https://stackoverflow.com/questions/12729265/switch-tabs-using-selenium-webdriver-with-java
+	 * @throws Exception 
 	 */
-	private static void testNewBrowserWindows() {
+	private static void testNewBrowserWindows() throws Exception {
 		// locate to testing block first
 		WebElement testingBlock = _driver.findElement(By.className("child-windows"));
 		WebElement testElem = testingBlock.findElement(By.tagName("a"));
@@ -511,8 +522,11 @@ public class CommandsTesting {
 		addWindowHandle("win001", winHandles);
 		// switch to win001
 		_driver.switchTo().window(winHandles.get("win001"));
-		System.out.println(_driver.findElement(By.className("window-content")).getText());
 		waitForEyes();
+		String content = _driver.findElement(By.className("window-content")).getText();
+		String expected = "content in window 001";
+		System.out.println(content);
+		assertTrue(expected.equals(content), "content should be "+expected);
 		
 		// back to original window
 		_driver.switchTo().window(winHandles.get("origin"));
@@ -522,8 +536,11 @@ public class CommandsTesting {
 		testElem.click();
 		addWindowHandle("win002", winHandles);
 		_driver.switchTo().window(winHandles.get("win002"));
-		System.out.println(_driver.findElement(By.className("window-content")).getText());
 		waitForEyes();
+		content = _driver.findElement(By.className("window-content")).getText();
+		expected = "content in window 002";
+		System.out.println(content);
+		assertTrue(expected.equals(content), "content should be "+expected);
 
 		_driver.switchTo().window(winHandles.get("origin"));
 		// test window_003
@@ -532,8 +549,11 @@ public class CommandsTesting {
 		testElem.click();
 		addWindowHandle("win003", winHandles);
 		_driver.switchTo().window(winHandles.get("win003"));
-		System.out.println(_driver.findElement(By.className("window-content")).getText());
 		waitForEyes();
+		content = _driver.findElement(By.className("window-content")).getText();
+		expected = "content in window 003";
+		System.out.println(content);
+		assertTrue(expected.equals(content), "content should be "+expected);
 		
 		// close win001~win003
 		_driver.switchTo().window(winHandles.get("win001")).close();
@@ -544,6 +564,50 @@ public class CommandsTesting {
 		waitForEyes();
 		// back to origin
 		_driver.switchTo().window(winHandles.get("origin"));
+	}
+
+	private static void testBrowserHistory() throws Exception {
+		// locate to testing block first
+		WebElement testingBlock = _driver.findElement(By.className("browser-history"));
+		switchTestingAreas(testingBlock);
+		// to next page 001
+		testingBlock.findElement(By.className("nextpage001")).click();
+		waitForEyes(1500);
+		// to next page 002
+		_driver.findElement(By.className("nextpage002")).click();
+		waitForEyes(1500);
+		// back
+		_driver.navigate().back();
+		waitForEyes(1500);
+		System.out.println(_driver.findElement(By.className("next-page-content")).getText());
+		// forward
+		_driver.navigate().forward();
+		waitForEyes(1500);
+		System.out.println(_driver.findElement(By.className("next-page-content")).getText());
+		// back to first page (second history) from last page
+		_js.executeScript("window.history.go(-(window.history.length - 2))");
+		// relocate testing block
+		testingBlock = _driver.findElement(By.className("browser-history"));
+		switchTestingAreas(testingBlock);
+		waitForEyes(1500);
+		
+		// test history.pushState
+		WebElement ele = _driver.findElement(By.className("push-state-link"));
+		ele.click();
+		waitForEyes(1500);
+		assertTrue(!ele.isDisplayed(), "push-state-link is visible");
+		_driver.navigate().back();
+		waitForEyes(1500);
+		assertTrue(ele.isDisplayed(), "push-state-link is not visible");
+		_driver.navigate().forward();
+		waitForEyes(1500);
+		assertTrue(!ele.isDisplayed(), "push-state-link is visible");
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void assertTrue(boolean isTrue, String errMsg) throws Exception{
+		if (!isTrue) throw new Exception(errMsg);
 	}
 
 	private static void done() {
