@@ -23,6 +23,8 @@ Browser Automation, etc
 
 [JAVA Selenium Browser Automation Getting Started](https://ben-bai.blogspot.com/2019/10/java-selenium-browser-automation.html)
 
+[JAVA Selenium Commands Testing](https://ben-bai.blogspot.com/2019/11/java-selenium-commands-testing.html)
+
 ### JAVA/Concurrent
 
 Basic Thread, ExecutorService, etc
