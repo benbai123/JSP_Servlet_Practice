@@ -2,11 +2,11 @@ package com.blogspot.benbai123.selenium.commandstesting;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -14,7 +14,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -25,6 +28,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * testing page and JavaScript file
  *   http://benbai123.github.io/TestPages/Automation/Selenium/CommandsTesting.html
  *   http://benbai123.github.io/TestPages/Automation/Selenium/js/commands_testing.js
+ * 
+ * refs:
+ * 	https://www.javatpoint.com/selenium-webdriver-commands
+ *  https://stackoverflow.com/questions/12729265/switch-tabs-using-selenium-webdriver-with-java
+ *  https://stackoverflow.com/questions/11736027/webdriver-wait-for-element-using-java
+ *  https://stackoverflow.com/questions/20903231/how-to-wait-until-an-element-is-present-in-selenium
  * 
  * @author benbai123
  *
@@ -48,6 +57,7 @@ public class CommandsTesting {
 			testIFrames();
 			testNewBrowserWindows();
 			testBrowserHistory();
+			testFlowControl();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -604,6 +614,37 @@ public class CommandsTesting {
 		assertTrue(!ele.isDisplayed(), "push-state-link is visible");
 		// TODO Auto-generated method stub
 		
+	}
+
+	private static void testFlowControl() {
+		// locate to testing block first
+		WebElement testingBlock = _driver.findElement(By.className("flow-control"));
+		WebElement ele = testingBlock.findElement(By.className("add-child"));
+		switchTestingAreas(testingBlock, ele);
+		waitForEyes();
+		
+		ele.click();
+		/* wait at most 20 seconds
+		 * will stop waiting as soon as the added-child is presented
+		 */
+		WebDriverWait wait = new WebDriverWait(_driver, 20);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("added-child")));
+		
+		ele = testingBlock.findElement(By.className("to-be-hidden"));
+		switchTestingAreas(testingBlock, ele);
+		ele.click();
+		
+		// wait until to-be-hidden is hidden
+		// also try java8 lambda
+		new FluentWait<WebElement>(ele) // create FluentWait instance, pass ele into it
+			.withTimeout(Duration.ofSeconds(20)) // wait at most 20 seconds
+			.pollingEvery(Duration.ofMillis(500)) // check every 500 millis
+			.ignoring(Exception.class) // ignore any Exception
+			.until((WebElement e) -> {
+				// check whether the passed in WebElement is hidden
+				return !e.isDisplayed();
+			});
+		waitForEyes(2000);
 	}
 
 	private static void assertTrue(boolean isTrue, String errMsg) throws Exception{
