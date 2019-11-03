@@ -1,5 +1,9 @@
 package com.blogspot.benbai123.selenium.commandstesting;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -10,6 +14,8 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,6 +64,7 @@ public class CommandsTesting {
 			testNewBrowserWindows();
 			testBrowserHistory();
 			testFlowControl();
+			testScreenShot();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -645,6 +652,21 @@ public class CommandsTesting {
 				return !e.isDisplayed();
 			});
 		waitForEyes(2000);
+	}
+
+	private static void testScreenShot() throws Exception {
+		_driver.get("https://www.google.com");
+		WebElement q = _driver.findElement(By.name("q"));
+
+		q.sendKeys("aa");
+		q.sendKeys(Keys.TAB);
+		File ss = ((TakesScreenshot)_driver).getScreenshotAs(OutputType.FILE);
+		Files.move(ss.toPath(), Paths.get("aa.png"), StandardCopyOption.REPLACE_EXISTING);
+		
+		q.sendKeys(Keys.chord(Keys.CONTROL, "a"), "bb");
+		q.sendKeys(Keys.TAB);
+		ss = ((TakesScreenshot)_driver).getScreenshotAs(OutputType.FILE);
+		Files.move(ss.toPath(), Paths.get("bb.png"), StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	private static void assertTrue(boolean isTrue, String errMsg) throws Exception{
