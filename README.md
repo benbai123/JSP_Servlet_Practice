@@ -51,6 +51,10 @@ Key Generation, Encryption, Decryption
 
 [JAVA RSA Sign Data and Verify](https://ben-bai.blogspot.com/2019/10/java-rsa-sign-data-and-verify.html)
 
+### JAVA/Image
+
+[JAVA Image Basic Operations](https://ben-bai.blogspot.com/2019/11/java-image-basic-operations.html)
+
 ### JAVA/JMS
 
 Java Message Service (JMS) practice
