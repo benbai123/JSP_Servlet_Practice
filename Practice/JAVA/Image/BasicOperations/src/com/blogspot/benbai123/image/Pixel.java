@@ -62,8 +62,8 @@ public class Pixel {
 		final int height = bufferedImage.getHeight();
 		// whether has alpha
 		final boolean hasAlphaChannel = bufferedImage.getAlphaRaster() != null;
-		/* 4 bytes: [alpha][blue][green][red]
-		 * 3 bytes: [blue][green][red]
+		/* 4 bytes: [alpha]	[blue][green][red]
+		 * 3 bytes: 		[blue][green][red]
 		 */
 		final int pixelLength = hasAlphaChannel? 4 : 3;
 		Pixel[][] pixels = new Pixel[width][height];

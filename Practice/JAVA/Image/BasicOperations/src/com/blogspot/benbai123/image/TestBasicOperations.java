@@ -1,5 +1,8 @@
 package com.blogspot.benbai123.image;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
@@ -20,22 +23,17 @@ public class TestBasicOperations {
 	public static void main(String[] args) {
 		try {
 			testLoadImageToBufferedImage();
+			
 			// get data of pixels by method from reference
 			int[][] intPixels = testLoadPixelsFromBufferedImage(_image);
 			// get data of pixels by modified method
 			Pixel[][] pixels = Pixel.loadPixels(_image);
-			// verify my modification is working
-			boolean equals = true;
-			for (int x = 0; x < intPixels.length; x++) {
-				for (int y = 0; y < intPixels[x].length; y++) {
-					if (intPixels[x][y] != pixels[y][x].intValue()) {
-						equals = false;
-						break;
-					}
-				}
-				if (!equals) break;
-			}
-			System.out.println("equals: "+equals);
+			// verify my modification
+			verifyLoadedPixels(intPixels, pixels);
+			
+			// test draw rect
+			testDrawRect(_image, new Rectangle(100, 100, 100, 100),
+					Color.RED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,5 +95,28 @@ public class TestBasicOperations {
 		}
 
 		return result;
+	}
+
+	private static void verifyLoadedPixels(int[][] intPixels, Pixel[][] pixels) {
+		boolean equals = true;
+		for (int x = 0; x < intPixels.length; x++) {
+			for (int y = 0; y < intPixels[x].length; y++) {
+				if (intPixels[x][y] != pixels[y][x].intValue()) {
+					equals = false;
+					break;
+				}
+			}
+			if (!equals) break;
+		}
+		System.out.println("equals: "+equals);
+	}
+
+	private static void testDrawRect(BufferedImage image,
+			Rectangle rect, Color c) throws Exception {
+		Graphics2D g2d = image.createGraphics();
+		g2d.setColor(c);
+		g2d.drawRect(rect.x, rect.y, rect.width, rect.height);
+	    ImageIO.write(image, "png", new File("output_image.png"));
+		g2d.dispose();
 	}
 }
