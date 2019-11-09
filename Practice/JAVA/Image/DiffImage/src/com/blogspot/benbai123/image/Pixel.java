@@ -20,6 +20,13 @@ public class Pixel {
 		return new byte[] {_alpha, _blue, _green, _red};
 	}
 	/**
+	 * 
+	 * @return {_blue, _green, _red}
+	 */
+	public byte[] getRGB () {
+		return new byte[] {_blue, _green, _red};
+	}
+	/**
 	 * @param argb real order: 0/alpha, 1/blue, 2/green, 3/red
 	 */
 	public Pixel (byte[] argb) {

@@ -23,7 +23,32 @@ import javax.imageio.ImageIO;
  */
 public class ImageDiff {
 
-	public static BufferedImage diffExpectedWithActual(BufferedImage expected, BufferedImage actual) throws Exception {
+	public static void main(String[] args) throws Exception {
+		// expected image
+		BufferedImage expected = ImageIO.read(new File("aa.png"));
+		// different actual image
+		BufferedImage actual = ImageIO.read(new File("cc.png"));
+		// same image with different alpha value
+		BufferedImage expectedWithDifferentAlpha = ImageIO.read(new File("dd.png"));
+		
+		BufferedImage result = diffExpectedWithActual(expected, actual);
+		ImageIO.write(result, "png", new File("output_image.png"));
+		
+		result = diffExpectedWithActual(expected, expectedWithDifferentAlpha);
+		ImageIO.write(result, "png", new File("output_image2.png"));
+		
+		// diff with ignore alpha (no difference in result image
+		ImageDiffImpl imgDiff = new ImageDiffImpl();
+		// update configs
+		imgDiff.config().ignoreAlpha(true);
+		result = imgDiff.expected(expected).actual(expectedWithDifferentAlpha)
+				.diff().result();
+		ImageIO.write(result, "png", new File("output_image3.png"));
+		
+		System.out.println("done");
+	}
+
+	private static BufferedImage diffExpectedWithActual(BufferedImage expected, BufferedImage actual) throws Exception {
 		ImageDiffImpl imgDiff = new ImageDiffImpl();
 		// update configs
 		imgDiff.config().maxDistance(30).margin(5)
@@ -34,17 +59,5 @@ public class ImageDiff {
 				.diff() // tell me
 				.result(); // what the f***ing differences?
 		return result;
-	}
-
-	
-
-	public static void main(String[] args) throws Exception {
-		BufferedImage expected = ImageIO.read(new File("aa.png"));
-		BufferedImage actual = ImageIO.read(new File("cc.png"));
-
-		BufferedImage result = diffExpectedWithActual(expected, actual);
-		ImageIO.write(result, "png", new File("output_image.png"));
-		
-		System.out.println("done");
 	}
 }

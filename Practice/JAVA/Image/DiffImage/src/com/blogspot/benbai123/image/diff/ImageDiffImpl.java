@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -135,11 +136,14 @@ public class ImageDiffImpl {
 		if (x >= _expectedPixels.length || x >= _actualPixels.length) return true;
 		if (y >= _expectedPixels[0].length || y >= _actualPixels[0].length) return true;
 		// Pixel different
-		if (!_expectedPixels[x][y].equals(_actualPixels[x][y])) return true;
-		// same
-		return false;
+		return differentPixelValue(_expectedPixels[x][y], _actualPixels[x][y]);
 	}
 
+	private boolean differentPixelValue(Pixel expectedPixel, Pixel actualPixel) {
+		if (_config.ignoreAlpha())
+			return !Arrays.equals(expectedPixel.getRGB(), actualPixel.getRGB());
+		return !expectedPixel.equals(actualPixel);
+	}
 	/**
 	 * Build areas from different Points
 	 * 
@@ -275,10 +279,12 @@ public class ImageDiffImpl {
 		private int _maxDistance = 60;
 		/** margin for draw area */
 		private int _margin = 10;
-		/** stroke size */
+		/** stroke size for draw area */
 		private int _lineWidth = 1;
-		/** color */
+		/** border color for draw area */
 		private Color _color = Color.RED;
+		/** ignore alpha value when diff */
+		private boolean _ignoreAlpha = false;
 		// violate getter/setter pattern for convenience :~|
 		public int maxDistance () {
 			return _maxDistance;
@@ -310,6 +316,13 @@ public class ImageDiffImpl {
 		}
 		public ImageDiffConfig color (String nm) {
 			_color = Color.decode(nm);
+			return this;
+		}
+		public boolean ignoreAlpha () {
+			return _ignoreAlpha;
+		}
+		public ImageDiffConfig ignoreAlpha (boolean ignoreAlpha) {
+			_ignoreAlpha = ignoreAlpha;
 			return this;
 		}
 	}
