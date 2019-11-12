@@ -24,7 +24,7 @@ import com.blogspot.benbai123.image.Pixel;
  *
  */
 public class ImageDiffImpl {
-	/** it should looks like... */
+	/** it should look like... */
 	private BufferedImage _expected;
 	private Pixel[][] _expectedPixels;
 	/** it actually looks like... */
@@ -34,19 +34,23 @@ public class ImageDiffImpl {
 	private BufferedImage _result;
 	/** something affect the diff result */
 	private ImageDiffConfig _config = new ImageDiffConfig();
-	// getter/setters that violate get/set patterns :~|
+	private boolean _different = false;
+	// getters/setters that violate get/set patterns :~|
 	public ImageDiffConfig config () {
 		return _config;
 	}
-	public ImageDiffImpl expected (BufferedImage expected) {
+	public ImageDiffImpl expected (BufferedImage expected) throws Exception {
 		_expected = expected;
 		_expectedPixels = Pixel.loadPixels(_expected);
 		return this;
 	}
-	public ImageDiffImpl actual (BufferedImage actual) {
+	public ImageDiffImpl actual (BufferedImage actual) throws Exception {
 		_actual = actual;
 		_actualPixels = Pixel.loadPixels(_actual);
 		return this;
+	}
+	public boolean different () {
+		return _different;
 	}
 	public BufferedImage result () {
 		return _result;
@@ -60,6 +64,9 @@ public class ImageDiffImpl {
 	public ImageDiffImpl diff () {
 		_result = getInitialResult();
 		List<Rectangle> differentAreas = findDifferentAreas();
+		if (differentAreas.size() > 0) {
+			_different = true;
+		}
 		markDifferentAreas(differentAreas);
 		return this;
 	}

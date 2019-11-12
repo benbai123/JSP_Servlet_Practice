@@ -1,7 +1,14 @@
 package com.blogspot.benbai123.image;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
+import java.awt.image.DataBufferShort;
+import java.awt.image.DataBufferUShort;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
@@ -16,6 +23,10 @@ public class Pixel {
 	private byte _red;
 	private byte _green;
 	private byte _blue;
+	/**
+	 * 
+	 * @return {_alpha, _blue, _green, _red}
+	 */
 	public byte[] getData () {
 		return new byte[] {_alpha, _blue, _green, _red};
 	}
@@ -57,14 +68,15 @@ public class Pixel {
 	}
 	
 	/**
-	 * Load data of each pixel from buffered image
+	 * Load data of each pixel from BufferedImage
 	 * 
 	 * @param bufferedImage
 	 * @return
+	 * @throws Exception 
 	 */
-	public static Pixel[][] loadPixels (BufferedImage bufferedImage) {
+	public static Pixel[][] loadPixels (BufferedImage bufferedImage) throws Exception {
 		// byte array for pixels in image
-		final byte[] pixelDatas = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
+		final byte[] pixelDatas = getImageBytes(bufferedImage.getRaster().getDataBuffer());
 		final int width = bufferedImage.getWidth();
 		final int height = bufferedImage.getHeight();
 		// whether has alpha
@@ -96,5 +108,37 @@ public class Pixel {
 			});
 		});
 		return pixels;
+	}
+	private static byte[] getImageBytes (DataBuffer dataBuffer) throws Exception {
+		if (dataBuffer instanceof DataBufferByte)
+			return getBytes((DataBufferByte)dataBuffer);
+		if (dataBuffer instanceof DataBufferUShort)
+			return getBytes((DataBufferUShort)dataBuffer);
+		if (dataBuffer instanceof DataBufferShort)
+			return getBytes((DataBufferShort)dataBuffer);
+		if (dataBuffer instanceof DataBufferInt)
+			return getBytes((DataBufferInt)dataBuffer);
+		throw new Exception("no proper method for dataBuffer "+dataBuffer.getClass());
+	}
+	private static byte[] getBytes (DataBufferByte dataBuffer) {
+		return dataBuffer.getData();
+	}
+	private static byte[] getBytes (DataBufferUShort dataBuffer) {
+		short[] pixelData = dataBuffer.getData();
+		ByteBuffer byteBuffer = ByteBuffer.allocate(pixelData.length * 2);
+		byteBuffer.asShortBuffer().put(ShortBuffer.wrap(pixelData));
+		return byteBuffer.array();
+	}
+	private static byte[] getBytes (DataBufferShort dataBuffer) {
+		short[] pixelData = dataBuffer.getData();
+		ByteBuffer byteBuffer = ByteBuffer.allocate(pixelData.length * 2);
+		byteBuffer.asShortBuffer().put(ShortBuffer.wrap(pixelData));
+		return byteBuffer.array();
+	}
+	private static byte[] getBytes (DataBufferInt dataBuffer) {
+		int[] pixelData = dataBuffer.getData();
+		ByteBuffer byteBuffer = ByteBuffer.allocate(pixelData.length * 4);
+		byteBuffer.asIntBuffer().put(IntBuffer.wrap(pixelData));
+		return byteBuffer.array();
 	}
 }
