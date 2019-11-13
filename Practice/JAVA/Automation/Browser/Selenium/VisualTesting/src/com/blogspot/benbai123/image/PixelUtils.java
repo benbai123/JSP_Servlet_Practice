@@ -13,58 +13,38 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
- * Class that represents a pixel in an image
+ * Utilities that process pixels in an image
+ * 
+ * Ref:
+ * 	https://stackoverflow.com/questions/29301838/converting-bufferedimage-to-bytebuffer
  * 
  * @author benbai123
  *
  */
-public class Pixel {
-	private byte _alpha;
-	private byte _red;
-	private byte _green;
-	private byte _blue;
-	/**
-	 * 
-	 * @return {_alpha, _blue, _green, _red}
-	 */
-	public byte[] getData () {
-		return new byte[] {_alpha, _blue, _green, _red};
-	}
+public class PixelUtils {
 	/**
 	 * 
 	 * @return {_blue, _green, _red}
 	 */
-	public byte[] getRGB () {
-		return new byte[] {_blue, _green, _red};
+	public static byte[] getRGB (byte[] pixelBytes) {
+		return new byte[] {pixelBytes[1], pixelBytes[2], pixelBytes[3]};
 	}
-	/**
-	 * @param argb real order: 0/alpha, 1/blue, 2/green, 3/red
-	 */
-	public Pixel (byte[] argb) {
-		_red = argb[3];
-		_green = argb[2];
-		_blue = argb[1];
-		_alpha = argb[0];
-	}
-	public int intValue() {
+
+	public static int intValue(byte[] pixelBytes) {
 		int argb = 0;
-		argb += (((int) _alpha & 0xff) << 24); // alpha
-		argb += ((int) _blue & 0xff); // blue
-		argb += (((int) _green & 0xff) << 8); // green
-		argb += (((int) _red & 0xff) << 16); // red
+		argb += (((int) pixelBytes[0] & 0xff) << 24); // alpha
+		argb += ((int) pixelBytes[1] & 0xff); // blue
+		argb += (((int) pixelBytes[2] & 0xff) << 8); // green
+		argb += (((int) pixelBytes[3] & 0xff) << 16); // red
 		return argb;
 	}
 	
-	public boolean equalsInt (int argb) {
-		return argb == intValue();
+	public static boolean equalsInt (byte[] pixelBytes, int argb) {
+		return argb == intValue(pixelBytes);
 	}
 	
-	public boolean equals (Object obj) {
-		if (obj instanceof Pixel) {
-			Pixel another = (Pixel)obj;
-			return Arrays.equals(getData(), another.getData());
-		}
-		return false;
+	public static boolean equals (byte[] expectedPixelBytes, byte[] actualPixelBytes) {
+		return Arrays.equals(expectedPixelBytes, actualPixelBytes);
 	}
 	
 	/**
@@ -74,9 +54,9 @@ public class Pixel {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Pixel[][] loadPixels (BufferedImage bufferedImage) throws Exception {
+	public static byte[][][] loadPixels (BufferedImage bufferedImage) throws Exception {
 		// byte array for pixels in image
-		final byte[] pixelDatas = getImageBytes(bufferedImage.getRaster().getDataBuffer());
+		final byte[] pixelDatas = getImageBytes(bufferedImage);
 		final int width = bufferedImage.getWidth();
 		final int height = bufferedImage.getHeight();
 		// whether has alpha
@@ -85,7 +65,7 @@ public class Pixel {
 		 * 3 bytes: 		[blue][green][red]
 		 */
 		final int pixelLength = hasAlphaChannel? 4 : 3;
-		Pixel[][] pixels = new Pixel[width][height];
+		byte[][][] pixels = new byte[width][height][4];
 		// for each row (0 ~ height-1)
 		IntStream.range(0, height).parallel().forEach((y) -> {
 			// for each col (0 ~ width-1)
@@ -104,12 +84,20 @@ public class Pixel {
 					 */
 					argb[bidx] = hasAlphaChannel? pixelDatas[start+bidx] : pixelDatas[start-1+bidx];
 				});
-				pixels[x][y] = new Pixel(argb);
+				pixels[x][y] = argb;
 			});
 		});
 		return pixels;
 	}
-	private static byte[] getImageBytes (DataBuffer dataBuffer) throws Exception {
+	/**
+	 * Get byte array from dataBuffer of BufferedImage
+	 * 
+	 * @param dataBuffer
+	 * @return
+	 * @throws Exception
+	 */
+	private static byte[] getImageBytes (BufferedImage bufferedImage) throws Exception {
+		DataBuffer dataBuffer = bufferedImage.getRaster().getDataBuffer();
 		if (dataBuffer instanceof DataBufferByte)
 			return getBytes((DataBufferByte)dataBuffer);
 		if (dataBuffer instanceof DataBufferUShort)

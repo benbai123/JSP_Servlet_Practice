@@ -25,6 +25,8 @@ Browser Automation, etc
 
 [JAVA Selenium Commands Testing](https://ben-bai.blogspot.com/2019/11/java-selenium-commands-testing.html)
 
+[JAVA Selenium Visual Testing](https://ben-bai.blogspot.com/2019/11/java-selenium-visual-testing.html)
+
 ### JAVA/Concurrent
 
 Basic Thread, ExecutorService, etc

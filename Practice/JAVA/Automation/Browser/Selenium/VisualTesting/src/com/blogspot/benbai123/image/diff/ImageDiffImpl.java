@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -15,7 +16,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.blogspot.benbai123.image.Pixel;
+import javax.imageio.ImageIO;
+
+import com.blogspot.benbai123.image.PixelUtils;
 
 /**
  * Diff 2 Images and highlight differences
@@ -26,10 +29,10 @@ import com.blogspot.benbai123.image.Pixel;
 public class ImageDiffImpl {
 	/** it should look like... */
 	private BufferedImage _expected;
-	private Pixel[][] _expectedPixels;
+	private byte[][][] _expectedPixels;
 	/** it actually looks like... */
 	private BufferedImage _actual;
-	private Pixel[][] _actualPixels;
+	private byte[][][] _actualPixels;
 	/** hmm...the differences? */
 	private BufferedImage _result;
 	/** something affect the diff result */
@@ -39,14 +42,35 @@ public class ImageDiffImpl {
 	public ImageDiffConfig config () {
 		return _config;
 	}
+	/**
+	 * specify expected file
+	 * 
+	 * auto generate blank BufferedImage if it does not exist
+	 * 
+	 * @param expected
+	 * @return
+	 * @throws Exception
+	 */
+	public ImageDiffImpl expected (File expected) throws Exception {
+		BufferedImage expectedImage = expected.exists()?
+				ImageIO.read(expected) :
+					new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+		return expected(expectedImage);
+	}
 	public ImageDiffImpl expected (BufferedImage expected) throws Exception {
 		_expected = expected;
-		_expectedPixels = Pixel.loadPixels(_expected);
+		_expectedPixels = PixelUtils.loadPixels(_expected);
 		return this;
+	}
+	public ImageDiffImpl actual (File actual) throws Exception {
+		BufferedImage actualImage = actual.exists()?
+				ImageIO.read(actual) :
+					new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+		return actual(actualImage);
 	}
 	public ImageDiffImpl actual (BufferedImage actual) throws Exception {
 		_actual = actual;
-		_actualPixels = Pixel.loadPixels(_actual);
+		_actualPixels = PixelUtils.loadPixels(_actual);
 		return this;
 	}
 	public boolean different () {
@@ -146,10 +170,10 @@ public class ImageDiffImpl {
 		return differentPixelValue(_expectedPixels[x][y], _actualPixels[x][y]);
 	}
 
-	private boolean differentPixelValue(Pixel expectedPixel, Pixel actualPixel) {
+	private boolean differentPixelValue(byte[] expectedPixel, byte[] actualPixel) {
 		if (_config.ignoreAlpha())
-			return !Arrays.equals(expectedPixel.getRGB(), actualPixel.getRGB());
-		return !expectedPixel.equals(actualPixel);
+			return !Arrays.equals(PixelUtils.getRGB(expectedPixel), PixelUtils.getRGB(actualPixel));
+		return !PixelUtils.equals(expectedPixel, actualPixel);
 	}
 	/**
 	 * Build areas from different Points
