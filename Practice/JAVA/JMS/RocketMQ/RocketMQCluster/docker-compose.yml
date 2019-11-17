@@ -1,0 +1,21 @@
+# Compose file version
+version: '3'
+# define services
+services:
+  # service name
+  rmqcOne:
+    # denotes build the docker file in current folder
+    build: .
+    # the image name for built result
+    image: rmqi
+    # specify container name, or it will become something like "docker_rmqcOne_1"
+    container_name: rmqcOne
+    # expose port
+    ports:
+      - "9487:9876"
+  rmqcTwo:
+    # use the built image rmqi
+    image: rmqi
+    container_name: rmqcTwo
+    ports:
+      - "9478:9876"
